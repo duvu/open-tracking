@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5686d0c8-3330-42a8-88eb-2307a30341d0">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+    <property name="net.sf.jasperreports.print.create.bookmarks" value="false"/>
+    <queryString language="SQL">
+        <![CDATA[select * from  gpshandle.`Device`]]>
+    </queryString>
+    <field name="id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.label" value="id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="createdBy" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="createdBy"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="createdOn" class="java.sql.Timestamp">
+        <property name="com.jaspersoft.studio.field.label" value="createdOn"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="deviceId" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="deviceId"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="expiredOn" class="java.sql.Timestamp">
+        <property name="com.jaspersoft.studio.field.label" value="expiredOn"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="firmwareVerison" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="firmwareVerison"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="imei" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="imei"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="ipAddress" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="ipAddress"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="manufacturerName" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="manufacturerName"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="modelName" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="modelName"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="name" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="name"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="originalCountry" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="originalCountry"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="port" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.label" value="port"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="protocol" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="protocol"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="serialNumber" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="serialNumber"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="status" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="status"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="updatedBy" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="updatedBy"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="updatedOn" class="java.sql.Timestamp">
+        <property name="com.jaspersoft.studio.field.label" value="updatedOn"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="company" class="me.duvu.tracking.domain.Company">
+        <property name="com.jaspersoft.studio.field.label" value="company"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="vehicle" class="me.duvu.tracking.domain.Vehicle">
+        <property name="com.jaspersoft.studio.field.label" value="vehicle"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <field name="timeZoneStr" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.label" value="timeZoneStr"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
+    </field>
+    <title>
+        <band height="60" splitType="Prevent">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="34" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="30" height="30" uuid="84835d82-2795-4084-a99a-2a80cd09cf81">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f3d7d3d-1ea1-4fe1-ba2f-602bfdb5fbb7"/>
+                </reportElement>
+                <text><![CDATA[id]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="30" y="0" width="100" height="30" uuid="af6df0d4-9390-43ac-bf76-88a6b7cad613">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb565089-3e21-433b-9291-1244dd187b83"/>
+                </reportElement>
+                <text><![CDATA[deviceId]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="37" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
+            <textField isStretchWithOverflow="true" isBlankWhenNull="true">
+                <reportElement positionType="FixRelativeToBottom" stretchType="ContainerHeight" x="0" y="0" width="30" height="37" uuid="7aacdc5e-2e10-42f8-bca6-2793318da0fc">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f3d7d3d-1ea1-4fe1-ba2f-602bfdb5fbb7"/>
+                </reportElement>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="30" y="0" width="100" height="37" uuid="16f93c7c-fbf1-40fb-942d-85bcf90c3e11">
+                    <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fb565089-3e21-433b-9291-1244dd187b83"/>
+                </reportElement>
+                <box padding="1"/>
+                <textFieldExpression><![CDATA[$F{deviceId}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

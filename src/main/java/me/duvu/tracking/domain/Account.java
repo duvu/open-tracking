@@ -1,0 +1,118 @@
+package me.duvu.tracking.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import me.duvu.tracking.domain.enumeration.AccountStatus;
+import me.duvu.tracking.domain.enumeration.Roles;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
+/**
+ * @author beou on 8/1/17 03:09
+ */
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Account implements Serializable {
+
+    private static final long serialVersionUID = -7003585213284904715L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true, length = 32)
+    private String accountId;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
+
+    @ManyToOne
+    @JsonIgnoreProperties
+    private Account manager;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "_account_device_group", joinColumns = @JoinColumn(name = "accountId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "deviceGroupId", referencedColumnName = "id"))
+    private Set<DeviceGroup> deviceGroups;
+
+    @Enumerated(EnumType.ORDINAL)
+    private Roles privilege;
+
+    @Column(length = 25)
+    private String firstName;
+
+    @Column(length = 25)
+    private String lastName;
+
+    @Column(length = 20)
+    private String phoneNumber;
+
+    @Column()
+    private String photoUrl;
+
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+
+    @Column(length = 128)
+    private String addressLine1;
+
+    @Column(length = 128)
+    private String addressLine2;
+
+    @Column(length = 512)
+    private String notes;
+
+    @Column(length = 32)
+    private String language;
+
+    @Column(length = 32)
+    private String timeZoneStr;
+
+    @Column
+    private String firstPageUrl;
+
+    @Column
+    private Integer maxDevice;
+
+    @Column
+    private Integer maxStoredDataTime; // in days
+
+    @Column(length = 32)
+    private String createdBy;
+
+    @Column(length = 32)
+    private String updatedBy;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdOn;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedOn;
+
+    //--
+    @PrePersist
+    private void prePersist() {
+        this.createdOn = new Date();
+    }
+
+    @PreUpdate
+    private void preUpdate () {
+        this.updatedOn = new Date();
+    }
+
+    //--
+    public boolean isLord() {
+        return this.privilege == Roles.SUPER;
+    }
+}

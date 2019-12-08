@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .head {
+            font-weight: 600;
+        }
+    </style>
+    <!--variable account & deviceList-->
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th class="head">Device ID</th>
+            <th class="head">Creation On</th>
+            <th class="head">Last Address</th>
+            <th class="head">Last Event Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="device: ${deviceList}">
+            <td><span th:text="${device.getDeviceId()}"></span></td>
+            <td><span th:text="${device.createdOn}"></span></td>
+            <td><span th:text="${device.getLastAddress()}"></span></td>
+            <td><span th:text="${device.getLastEventTime()}"></span></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

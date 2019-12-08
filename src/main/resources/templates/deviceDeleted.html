@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<table>
+    <tr>
+        <td class="head">Device Id</td>
+        <td><span th:text="${device.getDeviceId()}"></span></td>
+    </tr>
+    <tr>
+        <td class="head">Last Address</td>
+        <td th:text="${device.getLastAddress()}"></td>
+    </tr>
+    <tr>
+        <td class="head">Last Event Time</td>
+        <td th:text="${device.getLastEventTime()}"></td>
+    </tr>
+</table>
+</body>
+</html>

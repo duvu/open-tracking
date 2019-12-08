@@ -1,0 +1,135 @@
+package me.duvu.tracking.geo;
+
+
+import me.duvu.tracking.utils.DistanceCalculator;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import java.io.StringReader;
+
+/**
+ * @author beou on 3/6/18 00:54
+ */
+public class Circle extends Geometry {
+    private double centerLatitude;
+    private double centerLongitude;
+    private double radius;
+
+    public Circle() {
+    }
+
+    public Circle(String wkt) {
+        fromGeoJson(wkt);
+    }
+
+    public Circle(double centerLatitude, double centerLongitude, double radius) {
+        this.centerLatitude = centerLatitude;
+        this.centerLongitude = centerLongitude;
+        this.radius = radius;
+    }
+
+    @Override
+    public boolean containsPoint(double latitude, double longitude) {
+        return DistanceCalculator.distance(centerLatitude, centerLongitude, latitude, longitude) <= radius;
+    }
+
+    @Override
+    public String toString() {
+        return toGeoJson();
+    }
+
+    @Override
+    public String toGeoJson() {
+        JsonObject jsonObjectProperties = Json.createObjectBuilder()
+                .add("type", "Circle")
+                .add("radius", radius)
+                .build();
+
+        JsonArray coordinates = Json.createArrayBuilder()
+                .add(centerLatitude)
+                .add(centerLongitude)
+                .build();
+
+        JsonObject jsonObjectGeometry = Json.createObjectBuilder()
+                .add("type", "Point")
+                .add("coordinates", coordinates)
+                .build();
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder(); // javax.json.JsonObjectBuilder
+        JsonObject jsonObject = jsonObjectBuilder
+                .add("type", "Feature")
+                .add("properties", jsonObjectProperties)
+                .add("geometry", jsonObjectGeometry)
+                .build();
+        return jsonObject.toString();
+    }
+
+    // {
+    //      "type":"Feature",
+    //      "properties":{
+    //          "type":"Circle",
+    //          "radius":4844.827350162072
+    //      },
+    //      "geometry":{
+    //          "type":"Point",
+    //          "coordinates":[106.06165,21.772602]
+    //      }
+    // }
+    @Override
+    public void fromGeoJson(String geoJson) {
+        JsonObject jsonObject = Json.createReader(new StringReader(geoJson)).readObject();
+        this.radius = jsonObject.getJsonObject("properties").getJsonNumber("radius").doubleValue();
+        this.centerLatitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(0).doubleValue();
+        this.centerLongitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(1).doubleValue();
+    }
+
+    //    @Override
+//    public String toWkt() {
+//        String wkt = "";
+//        wkt = "CIRCLE (";
+//        wkt += String.valueOf(centerLatitude);
+//        wkt += " ";
+//        wkt += String.valueOf(centerLongitude);
+//        wkt += ", ";
+//        DecimalFormat format = new DecimalFormat("0.#");
+//        wkt += format.format(radius);
+//        wkt += ")";
+//        return wkt;
+//    }
+//
+//    @Override
+//    public void fromWkt(String wkt) throws ParseException {
+//        if (!wkt.startsWith("CIRCLE")) {
+//            throw new ParseException("Mismatch geo type", 0);
+//        }
+//        String content = wkt.substring(wkt.indexOf("(") + 1, wkt.indexOf(")"));
+//        if (content == null || content.equals("")) {
+//            throw new ParseException("No content", 0);
+//        }
+//        String[] commaTokens = content.split(",");
+//        if (commaTokens.length != 2) {
+//            throw new ParseException("Not valid content", 0);
+//        }
+//        String[] tokens = commaTokens[0].split("\\s");
+//        if (tokens.length != 2) {
+//            throw new ParseException("Too much or less coordinates", 0);
+//        }
+//        try {
+//            centerLatitude = Double.parseDouble(tokens[0]);
+//        } catch (NumberFormatException e) {
+//            throw new ParseException(tokens[0] + " is not a double", 0);
+//        }
+//        try {
+//            centerLongitude = Double.parseDouble(tokens[1]);
+//        } catch (NumberFormatException e) {
+//            throw new ParseException(tokens[1] + " is not a double", 0);
+//        }
+//        try {
+//            radius = Double.parseDouble(commaTokens[1]);
+//        } catch (NumberFormatException e) {
+//            throw new ParseException(commaTokens[1] + " is not a double", 0);
+//        }
+//    }
+}
