@@ -1,8 +1,8 @@
 package me.duvu.tracking.internal.rest;
 
 import me.duvu.tracking.domain.enumeration.DeviceStatus;
-import me.duvu.tracking.web.rest.model.out.little.AccountLittle;
-import me.duvu.tracking.web.rest.model.out.little.AlertProfileLitter;
+import me.duvu.tracking.web.rest.model.response.little.AccountLittle;
+import me.duvu.tracking.web.rest.model.response.little.AlertProfileLitter;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;

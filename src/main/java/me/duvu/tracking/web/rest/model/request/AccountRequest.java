@@ -1,24 +1,20 @@
-package me.duvu.tracking.web.rest.model.in;
+package me.duvu.tracking.web.rest.model.request;
 
+import lombok.Data;
 import me.duvu.tracking.domain.enumeration.AccountStatus;
 import me.duvu.tracking.domain.enumeration.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author beou on 9/21/17 03:53
  * @version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class AccountRequest implements Serializable {
     private static final long serialVersionUID = -591813592141537331L;
 
@@ -62,4 +58,6 @@ public class AccountRequest implements Serializable {
 
     @Size(max = 512)
     private String notes;
+
+    private Set<SmtpPropertiesModel> smtpProperties;
 }

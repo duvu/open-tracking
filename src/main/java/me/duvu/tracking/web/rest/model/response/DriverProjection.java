@@ -1,7 +1,6 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author beou on 9/9/18 15:23

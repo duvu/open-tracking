@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.in;
+package me.duvu.tracking.web.rest.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceGroupRequest extends AbstractRequest implements Serializable{
+public class DeviceGroupRequest implements Serializable{
     private static final long serialVersionUID = 2929825357301149778L;
 
     private String name;

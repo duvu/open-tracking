@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.in;
+package me.duvu.tracking.web.rest.model.request;
 
 import me.duvu.tracking.domain.enumeration.AlertType;
 import me.duvu.tracking.domain.enumeration.DayTime;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * @author beou on 8/4/18 16:33

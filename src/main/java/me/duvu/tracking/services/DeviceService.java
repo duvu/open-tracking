@@ -14,7 +14,7 @@ import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.AlertProfileRepository;
 import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.specification.DeviceSpecification;
-import me.duvu.tracking.web.rest.model.in.DeviceRequest;
+import me.duvu.tracking.web.rest.model.request.DeviceRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,12 +134,12 @@ public class DeviceService {
         }
     }
 
-    public void save(Device device) {
+    public Device save(Device device) {
         if (device == null) {
             throw new InvalidModelException();
         }
 
-        deviceRepository.save(device);
+        return deviceRepository.save(device);
     }
 
     @Transactional

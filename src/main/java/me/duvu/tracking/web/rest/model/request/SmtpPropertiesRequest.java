@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.in;
+package me.duvu.tracking.web.rest.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

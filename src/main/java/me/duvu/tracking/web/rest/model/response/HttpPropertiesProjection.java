@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 /**
  * @author beou on 8/16/18 05:18

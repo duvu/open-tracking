@@ -1,9 +1,10 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import me.duvu.tracking.domain.enumeration.Roles;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author beou on 9/21/17 03:51
@@ -40,5 +41,5 @@ public interface AccountProjection {
     Date getCreatedOn();
     Date getUpdatedOn();
 
-
+    List<SmtpPropertiesProjection> getSmtpProperties();
 }

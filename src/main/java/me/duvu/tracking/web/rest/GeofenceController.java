@@ -2,8 +2,8 @@ package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.GeozoneService;
-import me.duvu.tracking.web.rest.model.out.GeofenceProjection;
-import me.duvu.tracking.web.rest.model.in.GeofenceRequest;
+import me.duvu.tracking.web.rest.model.response.GeofenceProjection;
+import me.duvu.tracking.web.rest.model.request.GeofenceRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,12 +1,11 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import org.springframework.beans.factory.annotation.Value;
 
-/**
- * @author beou on 4/30/18 17:09
- */
+public interface TrackProjection {
+    Long getId();
 
-public interface RptSpeedProjection {
+
     @Value(value = "#{target.getDevice() != null ? target.getDevice().getId() : null}")
     Long getDevId();
 
@@ -16,10 +15,6 @@ public interface RptSpeedProjection {
     @Value(value = "#{target.getDevice() != null ? target.getDevice().getName() : null}")
     String getDeviceName();
 
-    //int getStatus();
-    @Value(value = "#{@statusCode.statusCodeToString(target.getStatus())}")
-    String getStatus();
-
     double getLatitude();
 
     double getLongitude();
@@ -28,11 +23,26 @@ public interface RptSpeedProjection {
 
     Long getTimestamp();
 
+    double getOdometerKM();
+
     double getSpeedKPH();
 
     double getAltitude();
 
     double getHeading();
 
-    double getOdometerKM();
+    int getSatelliteCount();
+
+    double getBatteryLevel();
+
+    double getSignalStrength();
+
+    double getFuelLevel();
+
+    double getFuelLevel2();
+
+    double getFuelRemain();
+
+    @Value(value = "#{@statusCode.statusCodeToString(target.getStatus())}")
+    String getStatus();
 }

@@ -3,7 +3,7 @@ package me.duvu.tracking.web.rest;
 import me.duvu.tracking.domain.UnknownDevice;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.UnknownDeviceService;
-import me.duvu.tracking.web.rest.model.in.SelectionModel;
+import me.duvu.tracking.web.rest.model.request.SelectionModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author beou on 10/24/18 03:46

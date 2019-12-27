@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import java.util.Date;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * @author beou on 12/4/18 08:12
  */
-public interface DeviceGroupProjection extends AbstractProjection{
+public interface DeviceGroupProjection {
     Long getId();
     String getName();
     String getDescription();

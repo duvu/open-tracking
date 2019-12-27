@@ -27,9 +27,6 @@ public class SmtpProperties implements Serializable {
     private Long id;
 
     @Column
-    private Long accountId;
-
-    @Column
     private String protocol;
 
     @Column

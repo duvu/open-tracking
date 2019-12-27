@@ -11,7 +11,7 @@ import me.duvu.tracking.repository.AlertEventLogRepository;
 import me.duvu.tracking.repository.AlertProfileRepository;
 import me.duvu.tracking.specification.AlertEventLogSpecification;
 import me.duvu.tracking.specification.AlertProfileSpecification;
-import me.duvu.tracking.web.rest.model.in.AlertProfileRequest;
+import me.duvu.tracking.web.rest.model.request.AlertProfileRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -110,7 +110,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
 
     @Override
     @Transactional
-    public void update(Long id, AlertProfileRequest request) {
+    public AlertProfile update(Long id, AlertProfileRequest request) {
         Specification<AlertProfile> spec = alertProfileSpecification.findOne(id);
         AlertProfile ap = alertProfileRepository.findOne(spec).orElse(null);
         if (ap != null) {
@@ -138,7 +138,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
             ap.setText(request.getText());
             ap.setTemplateId(request.getTemplateId());
 
-            alertProfileRepository.save(ap);
+            return alertProfileRepository.save(ap);
         } else {
             throw new AccessDeninedOrNotExisted("Alert Profile not existed");
         }

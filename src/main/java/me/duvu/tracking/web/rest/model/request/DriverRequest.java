@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.in;
+package me.duvu.tracking.web.rest.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @author beou on 9/9/18 15:24

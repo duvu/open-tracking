@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import java.util.Date;
 

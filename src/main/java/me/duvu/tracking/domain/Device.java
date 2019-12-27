@@ -47,8 +47,8 @@ public class Device implements Serializable {
     private String imei;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinTable(name = "DeviceAccount", joinColumns = @JoinColumn(name = "deviceId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "accountId", referencedColumnName = "id"))
+    @JoinTable(name = "_device_account", joinColumns = @JoinColumn(name = "device_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"))
     private Set<Account> accounts;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })

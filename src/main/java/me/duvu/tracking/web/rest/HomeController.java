@@ -2,8 +2,8 @@ package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.HomeService;
-import me.duvu.tracking.web.rest.model.in.RegisterRequest;
-import me.duvu.tracking.web.rest.model.out.AccountProjection;
+import me.duvu.tracking.web.rest.model.request.RegisterRequest;
+import me.duvu.tracking.web.rest.model.response.AccountProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.validation.BindingResult;

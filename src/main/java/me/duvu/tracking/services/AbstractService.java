@@ -14,6 +14,6 @@ abstract class AbstractService<T, R> {
     abstract List<T> getAll(String search);
     abstract T getById(Long id);
     abstract T create(R request);
-    abstract void update(Long id, R request);
+    abstract T update(Long id, R request);
     abstract void delete(Long id);
 }

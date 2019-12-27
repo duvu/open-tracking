@@ -5,6 +5,7 @@ import me.duvu.tracking.domain.enumeration.AccountStatus;
 import me.duvu.tracking.domain.enumeration.Roles;
 import me.duvu.tracking.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import me.duvu.tracking.utils.PasswordUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ public class InitialBean {
     public void init() {
         log.info("[>_] Starting set-up system ...");
         initAccounts();
+        PasswordUtils.init(passwordEncoder);
     }
 
     private void initAccounts() {

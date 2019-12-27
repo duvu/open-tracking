@@ -1,16 +1,19 @@
 package me.duvu.tracking.services;
 
 import lombok.extern.slf4j.Slf4j;
+import me.duvu.tracking.domain.Account;
 import me.duvu.tracking.domain.SmtpProperties;
+import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.SmtpPropertiesRepository;
 import me.duvu.tracking.specification.SmtpPropertiesSpecification;
-import me.duvu.tracking.web.rest.model.in.SmtpPropertiesRequest;
+import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +25,11 @@ import java.util.List;
 public class SmtpPropertiesService extends AbstractService<SmtpProperties, SmtpPropertiesRequest>{
 
     private final SmtpPropertiesRepository smtpPropertiesRepository;
+    private final AccountRepository accountRepository;
 
-    public SmtpPropertiesService(SmtpPropertiesRepository smtpPropertiesRepository) {
+    public SmtpPropertiesService(SmtpPropertiesRepository smtpPropertiesRepository, AccountRepository accountRepository) {
         this.smtpPropertiesRepository = smtpPropertiesRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -38,8 +43,8 @@ public class SmtpPropertiesService extends AbstractService<SmtpProperties, SmtpP
     }
 
     List<SmtpProperties> getAllByAccountId(Long accountId) {
-        Specification<SmtpProperties> specification = SmtpPropertiesSpecification.searchByAccountId(accountId);
-        return smtpPropertiesRepository.findAll(specification);
+        Account account = accountRepository.getOne(accountId);
+        return new ArrayList<>(account.getSmtpProperties());
     }
 
     @Override
@@ -50,7 +55,6 @@ public class SmtpPropertiesService extends AbstractService<SmtpProperties, SmtpP
     @Override
     public SmtpProperties create(SmtpPropertiesRequest request) {
         SmtpProperties smtpProperties = SmtpProperties.builder()
-                .accountId(request.getAccountId())
                 .protocol(request.getProtocol())
                 .host(request.getHost())
                 .port(request.getPort())
@@ -65,7 +69,7 @@ public class SmtpPropertiesService extends AbstractService<SmtpProperties, SmtpP
     }
 
     @Override
-    void update(Long id, SmtpPropertiesRequest request) {
+    SmtpProperties update(Long id, SmtpPropertiesRequest request) {
         SmtpProperties smtpProperties = smtpPropertiesRepository.findById(id).orElse(null);
         if (smtpProperties != null) {
             if (StringUtils.isNotBlank(request.getProtocol())) {
@@ -99,7 +103,7 @@ public class SmtpPropertiesService extends AbstractService<SmtpProperties, SmtpP
             if (request.getMaxSizeAttachment() != null) {
                 smtpProperties.setMaxSizeAttachment(request.getMaxSizeAttachment());
             }
-            smtpPropertiesRepository.save(smtpProperties);
+            return smtpPropertiesRepository.save(smtpProperties);
         } else {
             throw new RuntimeException("Not found any SmtpProperties");
         }

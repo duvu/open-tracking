@@ -1,7 +1,7 @@
 package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.services.EventDataService;
-import me.duvu.tracking.web.rest.model.out.TrackProjection;
+import me.duvu.tracking.web.rest.model.response.TrackProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.web.bind.annotation.*;

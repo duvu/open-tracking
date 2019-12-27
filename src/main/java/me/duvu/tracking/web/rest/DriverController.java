@@ -2,8 +2,8 @@ package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.DriverService;
-import me.duvu.tracking.web.rest.model.in.DriverRequest;
-import me.duvu.tracking.web.rest.model.out.DriverProjection;
+import me.duvu.tracking.web.rest.model.request.DriverRequest;
+import me.duvu.tracking.web.rest.model.response.DriverProjection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

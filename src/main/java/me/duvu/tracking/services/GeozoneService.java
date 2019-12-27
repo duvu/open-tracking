@@ -6,7 +6,7 @@ import me.duvu.tracking.domain.Geofence;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.repository.GeofenceRepository;
 import me.duvu.tracking.specification.GeofenceSpecification;
-import me.duvu.tracking.web.rest.model.in.GeofenceRequest;
+import me.duvu.tracking.web.rest.model.request.GeofenceRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,12 +80,12 @@ public class GeozoneService extends AbstractService<Geofence, GeofenceRequest> {
     }
 
     @Override
-    public void update(Long id, GeofenceRequest request) {
+    public Geofence update(Long id, GeofenceRequest request) {
         Specification<Geofence> spec = geofenceSpecification.findOne(id);
         Geofence geofence = geofenceRepository.findOne(spec).orElse(null);
         if (geofence != null) {
             mapping(geofence, request);
-            geofenceRepository.save(geofence);
+            return geofenceRepository.save(geofence);
         } else {
             throw new AccessDeninedOrNotExisted("Not found valid object");
         }

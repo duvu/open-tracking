@@ -2,14 +2,17 @@ package me.duvu.tracking.services;
 
 import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.domain.Account;
+import me.duvu.tracking.domain.SmtpProperties;
 import me.duvu.tracking.domain.enumeration.AccountStatus;
 import me.duvu.tracking.domain.enumeration.Roles;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ObjectNotFoundException;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.specification.AccountSpecification;
-import me.duvu.tracking.web.rest.model.in.AccountRequest;
+import me.duvu.tracking.utils.PasswordUtils;
+import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
+import me.duvu.tracking.web.rest.model.request.SmtpPropertiesModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author beou on 8/1/17 04:55
@@ -30,16 +35,13 @@ import java.util.List;
 public class AccountService extends AbstractService<Account, AccountRequest> {
 
     private final AccountRepository accountRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AccountSpecification specificationHelper;
 
     @Autowired
     public AccountService(AccountRepository accountRepository,
-                          PasswordEncoder passwordEncoder,
                           AccountSpecification specificationHelper) {
 
         this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
         this.specificationHelper = specificationHelper;
     }
 
@@ -76,20 +78,31 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
         AccountStatus status = request.getStatus();
-
-        Roles ordinal = null;
-//        if (ApplicationContext.getMaxRole().value() <= request.getPrivilege().value()) {
-//            ordinal = applicationContext.getMaxRole();
-//        } else {
-            ordinal = request.getPrivilege();
-//        }
+        Roles ordinal = request.getPrivilege();
 
         Account currentAccount = accountRepository.findByAccountId(ApplicationContext.getCurrentUserName()).orElse(null);
-
         //-- default is USER.
+        ordinal = ordinal != null ? ordinal : Roles.NORMAL_USER;
+        String passwd = StringUtils.isNotBlank(request.getPassword()) ? request.getPassword() : PasswordUtils.getRandom();
+        String passwordEncorded = PasswordUtils.encode(passwd);
+
+        Set<SmtpPropertiesModel> smtpPropertiesModels = request.getSmtpProperties();
+        Set<SmtpProperties> smtpProperties = smtpPropertiesModels.stream().map(x -> {
+            SmtpProperties properties = new SmtpProperties();
+            properties.setAuth(x.getAuth());
+            properties.setHost(x.getHost());
+            properties.setPort(x.getPort());
+            properties.setMaxSizeAttachment(x.getMaxSizeAttachment());
+            properties.setUsername(x.getUsername());
+            properties.setPassword(x.getPassword());
+            properties.setProtocol(x.getProtocol());
+            properties.setStartTls(x.getStartTls());
+            return properties;
+        }).collect(Collectors.toSet());
+
         Account account = Account.builder()
                 .accountId(request.getAccountId())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncorded)
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .status(status)
@@ -102,19 +115,15 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
                 .addressLine1(request.getAddressLine1())
                 .addressLine2(request.getAddressLine2())
                 .emailAddress(request.getEmailAddress())
+                .smtpProperties(smtpProperties)
                 .createdBy(ApplicationContext.getCurrentUserName())
                 .build();
-
-        if (!StringUtils.isEmpty(request.getPassword())) {
-            account.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
-
         return accountRepository.save(account);
     }
 
     @Override
     @Transactional
-    public void update(Long id, AccountRequest request) {
+    public Account update(Long id, AccountRequest request) {
         Account account = accountRepository.getOne(id);
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
@@ -124,8 +133,10 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         account.setLastName(request.getLastName());
 
         String password = request.getPassword();
-        String passwordEncorded = passwordEncoder.encode(password);
-        account.setPassword(passwordEncorded);
+        if (StringUtils.isNotBlank(password)) {
+            String passwordEncorded = PasswordUtils.encode(password);
+            account.setPassword(passwordEncorded);
+        }
 
         Roles ordinal = request.getPrivilege();
         account.setPrivilege(ordinal);
@@ -141,12 +152,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         account.setAddressLine2(request.getAddressLine2());
         account.setEmailAddress(request.getEmailAddress());
         account.setUpdatedBy(ApplicationContext.getCurrentUserName());
-
-        try {
-            accountRepository.save(account);
-        } finally {
-            //update cache
-        }
+        return accountRepository.save(account);
     }
 
     @Override
@@ -155,11 +161,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         Specification<Account> specification = specificationHelper.findOne(id);
         Account account = accountRepository.findOne(specification).orElse(null);
         if (account != null) {
-            try {
-                accountRepository.delete(account);
-            } finally {
-                //update cache
-            }
+            accountRepository.delete(account);
         } else {
             throw new AccessDeninedOrNotExisted("You cannot delete this account #id:" + id);
         }

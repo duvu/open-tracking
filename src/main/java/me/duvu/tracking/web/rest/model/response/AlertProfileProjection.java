@@ -1,4 +1,4 @@
-package me.duvu.tracking.web.rest.model.out;
+package me.duvu.tracking.web.rest.model.response;
 
 import me.duvu.tracking.domain.enumeration.AlertType;
 import me.duvu.tracking.domain.enumeration.DayTime;
@@ -6,7 +6,6 @@ import me.duvu.tracking.domain.enumeration.WeekDays;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @author beou on 8/5/18 11:42

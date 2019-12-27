@@ -1,7 +1,7 @@
 package me.duvu.tracking.services;
 
 import me.duvu.tracking.domain.Message;
-import me.duvu.tracking.web.rest.model.in.MessageRequest;
+import me.duvu.tracking.web.rest.model.request.MessageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -7,7 +7,7 @@ import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.DriverRepository;
 import me.duvu.tracking.specification.DriverSpecification;
-import me.duvu.tracking.web.rest.model.in.DriverRequest;
+import me.duvu.tracking.web.rest.model.request.DriverRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -72,7 +72,7 @@ public class DriverService extends AbstractService<Driver, DriverRequest> {
     }
 
     @Override
-    public void update(Long id, DriverRequest request) {
+    public Driver update(Long id, DriverRequest request) {
         Driver driver = getById(id);
         if (driver != null) {
 
@@ -89,7 +89,7 @@ public class DriverService extends AbstractService<Driver, DriverRequest> {
             driver.setDriverLicenseIssueDate(request.getDriverLicenseIssueDate());
             driver.setDriverLicenseExpiredDate(request.getDriverLicenseExpiredDate());
 
-            driverRepository.save(driver);
+            return driverRepository.save(driver);
         } else {
             throw new AccessDeninedOrNotExisted("Driver not existed");
         }

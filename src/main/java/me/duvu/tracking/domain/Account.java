@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,6 +21,8 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
+@DynamicUpdate
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account implements Serializable {
@@ -88,6 +92,12 @@ public class Account implements Serializable {
     @Column
     private Integer maxStoredDataTime; // in days
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinTable(name = "_smtp_properties_account", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "smtp_properties_id", referencedColumnName = "id"))
+    private Set<SmtpProperties> smtpProperties;
+
+
     @Column(length = 32)
     private String createdBy;
 
@@ -109,10 +119,5 @@ public class Account implements Serializable {
     @PreUpdate
     private void preUpdate () {
         this.updatedOn = new Date();
-    }
-
-    //--
-    public boolean isLord() {
-        return this.privilege == Roles.SUPER;
     }
 }
