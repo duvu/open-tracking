@@ -1,6 +1,8 @@
 package me.duvu.tracking.web.rest;
 
+import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.domain.Account;
+import me.duvu.tracking.domain.SmtpProperties;
 import me.duvu.tracking.domain.enumeration.AccountStatus;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ValidationException;
@@ -104,7 +106,12 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
     }
 
     /*SmtpProperties controller*/
-    @PostMapping("/add-smtp/{accountId}")
+    @GetMapping("/smtp/{accountId}")
+    public List<SmtpProperties> getAllSmtpProperties(@PathVariable Long accountId) {
+        return accountService.getAllSmtpProperties(accountId);
+    }
+
+    @PostMapping("/smtp/{accountId}")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('SUPER', 'SYSADMIN', 'ADMIN')")
     public SmtpPropertiesProjection addSmtpToAccount(@PathVariable Long accountId, @RequestBody @Valid SmtpPropertiesRequest request, BindingResult result) {
@@ -114,7 +121,6 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
 
         // prevent wrong
         request.setAccountId(accountId);
-
-        return projectionFactory.createProjection(SmtpPropertiesProjection.class, smtpPropertiesService.create(request));
+        return projectionFactory.createProjection(SmtpPropertiesProjection.class, accountService.addNewSmtToAccount(accountId, request));
     }
 }

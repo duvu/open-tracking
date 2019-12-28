@@ -8,20 +8,23 @@ import me.duvu.tracking.domain.enumeration.Roles;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ObjectNotFoundException;
 import me.duvu.tracking.repository.AccountRepository;
+import me.duvu.tracking.repository.SmtpPropertiesRepository;
 import me.duvu.tracking.specification.AccountSpecification;
 import me.duvu.tracking.utils.PasswordUtils;
 import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.duvu.tracking.web.rest.model.request.SmtpPropertiesModel;
+import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,13 +38,16 @@ import java.util.stream.Collectors;
 public class AccountService extends AbstractService<Account, AccountRequest> {
 
     private final AccountRepository accountRepository;
+    private final SmtpPropertiesRepository smtpPropertiesRepository;
     private final AccountSpecification specificationHelper;
 
     @Autowired
     public AccountService(AccountRepository accountRepository,
+                          SmtpPropertiesRepository smtpPropertiesRepository,
                           AccountSpecification specificationHelper) {
 
         this.accountRepository = accountRepository;
+        this.smtpPropertiesRepository = smtpPropertiesRepository;
         this.specificationHelper = specificationHelper;
     }
 
@@ -164,6 +170,49 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
             accountRepository.delete(account);
         } else {
             throw new AccessDeninedOrNotExisted("You cannot delete this account #id:" + id);
+        }
+    }
+
+    public List<SmtpProperties> getAllSmtpProperties(Long accountId) {
+        Account account = getById(accountId);
+        if (ApplicationContext.checkManager(account)) {
+            return new ArrayList<>(account.getSmtpProperties());
+        } else {
+            throw new AccessDeninedOrNotExisted("Account not existed or access denied!");
+        }
+    }
+
+    public void addSmtpToAccount(Long accountId, Long smtpId) {
+        Account account = getById(accountId);
+        Account currentAccount = ApplicationContext.getAccount();
+    }
+
+    public SmtpProperties addNewSmtToAccount(Long accountId, SmtpPropertiesRequest request) {
+        Account account = getById(accountId);
+        if (ApplicationContext.checkManager(account)) {
+            // 1. create new SmtpProperties
+            SmtpProperties smtpProperties = SmtpProperties.builder()
+                    .host(request.getHost())
+                    .port(request.getPort())
+                    .username(request.getUsername())
+                    .password(request.getPassword())
+                    .startTls(request.getStartTls())
+                    .auth(request.getAuth())
+                    .protocol(request.getProtocol())
+                    .maxSizeAttachment(request.getMaxSizeAttachment())
+                    .createdBy(ApplicationContext.getCurrentUserName())
+                    .updatedBy(ApplicationContext.getCurrentUserName())
+                    .build();
+            smtpPropertiesRepository.save(smtpProperties);
+            // 2. setSmtpProperties to account
+            Set<SmtpProperties> smtpPropertiesSet = new HashSet<>();
+            smtpPropertiesSet.add(smtpProperties);
+            account.setSmtpProperties(smtpPropertiesSet);
+
+            accountRepository.save(account);
+            return smtpProperties;
+        } else {
+            throw new AccessDeninedOrNotExisted("Account not existed or access denied!");
         }
     }
 }
