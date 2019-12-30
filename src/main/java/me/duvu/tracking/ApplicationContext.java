@@ -65,7 +65,7 @@ public class ApplicationContext {
 
     public static boolean checkManager(Account account) {
         if (account != null) {
-            return account.getManager().getId().equals(getAccountId());
+            return account.getId().equals(getAccountId()) || account.getManager().getId().equals(getAccountId());
         }
         return false;
     }
