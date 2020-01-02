@@ -93,7 +93,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         String passwordEncorded = PasswordUtils.encode(passwd);
 
         Set<SmtpPropertiesModel> smtpPropertiesModels = request.getSmtpProperties();
-        Set<SmtpProperties> smtpProperties = smtpPropertiesModels.stream().map(x -> {
+        Set<SmtpProperties> smtpProperties = smtpPropertiesModels != null ? smtpPropertiesModels.stream().map(x -> {
             SmtpProperties properties = new SmtpProperties();
             properties.setAuth(x.getAuth());
             properties.setHost(x.getHost());
@@ -104,7 +104,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
             properties.setProtocol(x.getProtocol());
             properties.setStartTls(x.getStartTls());
             return properties;
-        }).collect(Collectors.toSet());
+        }).collect(Collectors.toSet()) : null;
 
         Account account = Account.builder()
                 .accountId(request.getAccountId())
