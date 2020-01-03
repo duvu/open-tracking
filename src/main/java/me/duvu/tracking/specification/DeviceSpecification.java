@@ -58,7 +58,7 @@ public class DeviceSpecification extends AbstractSpecification<Device> {
         );
     }
 
-    public Specification queryByAccountId(Long accountId) {
+    public Specification<Device> queryByAccountId(Long accountId) {
         return (root, query, cb) -> cb.equal(root.join(Device_.accounts).get(Account_.id), accountId);
     }
 }

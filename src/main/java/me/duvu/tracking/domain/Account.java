@@ -1,12 +1,9 @@
 package me.duvu.tracking.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 import me.duvu.tracking.domain.enumeration.AccountStatus;
 import me.duvu.tracking.domain.enumeration.Roles;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -25,6 +22,7 @@ import java.util.Set;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "manager")
 public class Account implements Serializable {
 
     private static final long serialVersionUID = -7003585213284904715L;

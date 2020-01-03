@@ -78,7 +78,7 @@ public class DeviceService {
     }
 
     public List<Device> getAllDeviceByAccountId(Long accountId) {
-        Specification specification = deviceSpecification.queryByAccountId(accountId);
+        Specification<Device> specification = deviceSpecification.queryByAccountId(accountId);
         return deviceRepository.findAll(specification);
     }
 
@@ -94,7 +94,7 @@ public class DeviceService {
             accountIds.add(ApplicationContext.getAccountId()); // add current account to device
 
             Set<Long> alertProfileIds = request.getAlertProfileIds();
-            Set<Account> accountSet = accountIds.stream().map(accountRepository::getOne).collect(Collectors.toSet());
+            Set<Account> accountSet = accountIds.stream().map(x -> accountRepository.findById(x).orElse(null)).collect(Collectors.toSet());
 
             Set<AlertProfile> alertProfileSet = alertProfileIds != null ?
                     alertProfileIds.stream().map(alertProfileRepository::getOne).collect(Collectors.toSet()) : null;
