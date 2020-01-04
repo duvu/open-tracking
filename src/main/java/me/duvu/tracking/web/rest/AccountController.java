@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -106,9 +107,13 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
     }
 
     /*SmtpProperties controller*/
-    @GetMapping("/smtp/{accountId}")
-    public List<SmtpProperties> getAllSmtpProperties(@PathVariable Long accountId) {
-        return accountService.getAllSmtpProperties(accountId);
+    @GetMapping(value = {"/smtp/{opAccountId}", "/smtp"})
+    public List<SmtpProperties> getAllSmtpProperties(@PathVariable Optional<Long> opAccountId) {
+        if (opAccountId.isPresent()) {
+            return accountService.getAllSmtpProperties(opAccountId.get());
+        } else {
+            return accountService.getAllSmtpProperties(ApplicationContext.getAccountId());
+        }
     }
 
     @PostMapping("/smtp/{accountId}")

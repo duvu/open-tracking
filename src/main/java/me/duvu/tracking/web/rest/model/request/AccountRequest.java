@@ -59,5 +59,5 @@ public class AccountRequest implements Serializable {
     @Size(max = 512)
     private String notes;
 
-    private Set<SmtpPropertiesModel> smtpProperties;
+    private Set<Long> smtpPropertiesIds;
 }

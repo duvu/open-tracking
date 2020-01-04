@@ -92,19 +92,8 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         String passwd = StringUtils.isNotBlank(request.getPassword()) ? request.getPassword() : PasswordUtils.getRandom();
         String passwordEncorded = PasswordUtils.encode(passwd);
 
-        Set<SmtpPropertiesModel> smtpPropertiesModels = request.getSmtpProperties();
-        Set<SmtpProperties> smtpProperties = smtpPropertiesModels != null ? smtpPropertiesModels.stream().map(x -> {
-            SmtpProperties properties = new SmtpProperties();
-            properties.setAuth(x.getAuth());
-            properties.setHost(x.getHost());
-            properties.setPort(x.getPort());
-            properties.setMaxSizeAttachment(x.getMaxSizeAttachment());
-            properties.setUsername(x.getUsername());
-            properties.setPassword(x.getPassword());
-            properties.setProtocol(x.getProtocol());
-            properties.setStartTls(x.getStartTls());
-            return properties;
-        }).collect(Collectors.toSet()) : null;
+        Set<Long> smtpPropertiesIds = request.getSmtpPropertiesIds();
+        Set<SmtpProperties> smtpProperties = smtpPropertiesIds != null ? smtpPropertiesIds.stream().map(x -> smtpPropertiesRepository.findById(x).orElse(null)).collect(Collectors.toSet()) : null;
 
         Account account = Account.builder()
                 .accountId(request.getAccountId())
@@ -137,6 +126,11 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         account.setAccountId(request.getAccountId());
         account.setFirstName(request.getFirstName());
         account.setLastName(request.getLastName());
+
+        Set<Long> smtpPropertiesIds = request.getSmtpPropertiesIds();
+        Set<SmtpProperties> smtpProperties = smtpPropertiesIds != null ? smtpPropertiesIds.stream().map(x -> smtpPropertiesRepository.findById(x).orElse(null)).collect(Collectors.toSet()) : null;
+
+        account.setSmtpProperties(smtpProperties);
 
         String password = request.getPassword();
         if (StringUtils.isNotBlank(password)) {
@@ -205,7 +199,10 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
                     .build();
             smtpPropertiesRepository.save(smtpProperties);
             // 2. setSmtpProperties to account
-            Set<SmtpProperties> smtpPropertiesSet = new HashSet<>();
+            Set<SmtpProperties> smtpPropertiesSet = account.getSmtpProperties(); // new HashSet<>();
+            if (smtpPropertiesSet == null) {
+                smtpPropertiesSet = new HashSet<>();
+            }
             smtpPropertiesSet.add(smtpProperties);
             account.setSmtpProperties(smtpPropertiesSet);
 
