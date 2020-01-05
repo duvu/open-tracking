@@ -1,5 +1,6 @@
 package me.duvu.tracking.web.rest.model.response;
 
+import me.duvu.tracking.domain.enumeration.AlertCatalog;
 import me.duvu.tracking.domain.enumeration.AlertType;
 import me.duvu.tracking.domain.enumeration.DayTime;
 import me.duvu.tracking.domain.enumeration.WeekDays;
@@ -25,6 +26,7 @@ public interface AlertProfileProjection {
     Long getParams1();
     String getParams2();
 
+    AlertCatalog getCatalog();
     WeekDays getWeekDays();
     DayTime getDayTime();
 

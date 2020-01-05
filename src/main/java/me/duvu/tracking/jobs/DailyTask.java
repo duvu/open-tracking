@@ -2,18 +2,23 @@ package me.duvu.tracking.jobs;
 
 import me.duvu.tracking.domain.Account;
 import me.duvu.tracking.domain.Device;
+import me.duvu.tracking.domain.SmtpProperties;
 import me.duvu.tracking.email.EmailService;
+import me.duvu.tracking.email.EmailUtils;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.services.EventDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author beou on 11/4/18 18:45
@@ -47,13 +52,16 @@ public class DailyTask {
     public void deviceReportDaily() {
         List<Account> accountList = accountRepository.findAll();
         accountList.forEach(account -> {
+            Set<SmtpProperties> smtpPropertiesSet = account.getSmtpProperties();
+            SmtpProperties smtp = smtpPropertiesSet != null ? smtpPropertiesSet.iterator().next() : null;
+
+            String emailTo = account.getEmailAddress();
             List<Device> deviceList = deviceService.getAllDeviceByAccountId(account.getId());
             Context ctx = new Context();
             ctx.setVariable("deviceList", deviceList);
             ctx.setVariable("account", account);
             String dailyReportDeviceList = templateEngine.process("dailyDeviceReportList", ctx);
-
-            emailService.send(account.getEmailAddress(), sysadminEmail, "Daily DeviceList", dailyReportDeviceList);
+            EmailUtils.sendEmail(smtp, emailTo, sysadminEmail, "Daily Device List", dailyReportDeviceList);
         });
     }
 

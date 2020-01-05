@@ -32,7 +32,7 @@ public class Driver implements Serializable {
     @Column
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "accountId", referencedColumnName = "id")
     private Account account;
 

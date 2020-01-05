@@ -1,5 +1,6 @@
 package me.duvu.tracking.web.rest.model.request;
 
+import me.duvu.tracking.domain.enumeration.AlertCatalog;
 import me.duvu.tracking.domain.enumeration.AlertType;
 import me.duvu.tracking.domain.enumeration.DayTime;
 import me.duvu.tracking.domain.enumeration.WeekDays;
@@ -24,6 +25,7 @@ public class AlertProfileRequest implements Serializable {
 
     private String name;
     private String description;
+    private AlertCatalog catalog;
     private AlertType type;
     private boolean active;
     private Double speedKph;

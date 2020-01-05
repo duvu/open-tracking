@@ -53,7 +53,7 @@ public class DriverService extends AbstractService<Driver, DriverRequest> {
 
     @Override
     public Driver create(DriverRequest request) {
-        Account account = accountRepository.findById(ApplicationContext.getAccountId()).orElse(null);
+        Account account = ApplicationContext.getAccount();
 
         Driver driver = Driver.builder()
                 .firstName(request.getFirstName())

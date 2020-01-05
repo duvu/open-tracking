@@ -75,7 +75,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
     @Override
     @Transactional
     public AlertProfile create(AlertProfileRequest request) {
-        Account account = accountRepository.findById(ApplicationContext.getAccountId()).orElse(null);
+        Account account = ApplicationContext.getAccount();
 
         WeekDays weekDays = request.getWeekDays();
         log.info("[>_] week-day:" + weekDays.toString());
@@ -91,6 +91,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
                 .params1(request.getParams1())
                 .params2(request.getParams2())
 
+                .catalog(request.getCatalog())
                 .weekDays(weekDays)
 
                 .dayTime(request.getDayTime())
@@ -126,6 +127,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
             ap.setParams1(request.getParams1());
             ap.setParams2(request.getParams2());
 
+            ap.setCatalog(request.getCatalog());
             ap.setWeekDays(request.getWeekDays());
             ap.setDayTime(request.getDayTime());
 
