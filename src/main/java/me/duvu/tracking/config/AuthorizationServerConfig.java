@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -48,6 +49,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthorizationServerConfig(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Bean
     public WebResponseExceptionTranslator loggingExceptionTranslator() {
         return new DefaultWebResponseExceptionTranslator() {
@@ -76,7 +83,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                         .scopes("read", "write")
                         .accessTokenValiditySeconds(3600*8)
                         .refreshTokenValiditySeconds(3600*8)
-                .and()
+                    .and()
+                    .withClient("mobile")
+                        .secret(passwordEncoder.encode("mobileApp"))
+                        .scopes("resource:read write")
+                        .authorizedGrantTypes("password", "authorization_code")
+                    .and()
                     .withClient("dcs-server")
                         .secret("dcs-secret-password")
                         .authorizedGrantTypes("implicit", "password", "authorization_code", "refresh_toke")
