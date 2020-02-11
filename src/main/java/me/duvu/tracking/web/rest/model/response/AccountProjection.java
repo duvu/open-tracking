@@ -1,6 +1,6 @@
 package me.duvu.tracking.web.rest.model.response;
 
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.enumeration.Roles;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;

@@ -1,9 +1,9 @@
 package me.duvu.tracking.web.rest.model.response;
 
-import me.duvu.tracking.domain.enumeration.AlertCatalog;
-import me.duvu.tracking.domain.enumeration.AlertType;
-import me.duvu.tracking.domain.enumeration.DayTime;
-import me.duvu.tracking.domain.enumeration.WeekDays;
+import me.duvu.tracking.entities.enumeration.AlertCatalog;
+import me.duvu.tracking.entities.enumeration.AlertType;
+import me.duvu.tracking.entities.enumeration.DayTime;
+import me.duvu.tracking.entities.enumeration.WeekDays;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;

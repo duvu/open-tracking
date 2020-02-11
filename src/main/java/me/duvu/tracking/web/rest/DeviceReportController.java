@@ -1,7 +1,7 @@
 package me.duvu.tracking.web.rest;
 
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.EventData;
 import me.duvu.tracking.exception.InvalidFormatException;
 import me.duvu.tracking.services.models.ParkingEvent;
 import me.duvu.tracking.services.DeviceReportService;

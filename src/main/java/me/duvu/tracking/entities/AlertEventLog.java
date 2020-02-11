@@ -1,7 +1,7 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 
-import me.duvu.tracking.domain.enumeration.AlertType;
+import me.duvu.tracking.entities.enumeration.AlertType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

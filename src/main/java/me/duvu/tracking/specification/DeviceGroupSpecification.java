@@ -1,6 +1,6 @@
 package me.duvu.tracking.specification;
 
-import me.duvu.tracking.domain.DeviceGroup;
+import me.duvu.tracking.entities.DeviceGroup;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

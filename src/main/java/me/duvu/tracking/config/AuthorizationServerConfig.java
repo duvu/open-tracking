@@ -125,6 +125,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             additionalInfor.put("accountId", userDetails.getAccountId());
             additionalInfor.put("accountName", userDetails.getUsername());
             additionalInfor.put("firstPageUrl", userDetails.getFirstPageUrl());
+            additionalInfor.put("lang", userDetails.getLang());
             additionalInfor.put("authorities", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
             ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(additionalInfor);
             return accessToken;

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(repositoryBaseClass = ExtendedRepositoryImpl.class, basePackages = {"me.duvu"})
-@EntityScan(basePackages = {"me.duvu.tracking.domain"})
+@EntityScan(basePackages = {"me.duvu.tracking.entities"})
 @EnableAspectJAutoProxy
 public class TrackingApplication {
 	public static void main(String[] args) {

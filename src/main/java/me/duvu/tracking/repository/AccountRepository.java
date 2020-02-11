@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.Account;
+import me.duvu.tracking.entities.Account;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

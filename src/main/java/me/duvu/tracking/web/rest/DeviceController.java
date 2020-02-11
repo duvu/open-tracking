@@ -1,6 +1,6 @@
 package me.duvu.tracking.web.rest;
 
-import me.duvu.tracking.domain.enumeration.DeviceStatus;
+import me.duvu.tracking.entities.enumeration.DeviceStatus;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.web.rest.model.request.DeviceGroupModel;

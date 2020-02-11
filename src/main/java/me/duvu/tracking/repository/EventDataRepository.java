@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.EventData;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

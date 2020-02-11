@@ -1,7 +1,7 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.*;
-import me.duvu.tracking.domain.enumeration.AlertType;
+import me.duvu.tracking.entities.*;
+import me.duvu.tracking.entities.enumeration.AlertType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

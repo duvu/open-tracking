@@ -1,6 +1,6 @@
 package me.duvu.tracking.aop.monitor;
 
-import me.duvu.tracking.domain.Device;
+import me.duvu.tracking.entities.Device;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.EventData;
 
 import java.util.List;
 

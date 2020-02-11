@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.SmtpProperties;
+import me.duvu.tracking.entities.SmtpProperties;
 
 /**
  * @author beou on 12/7/19 23:21

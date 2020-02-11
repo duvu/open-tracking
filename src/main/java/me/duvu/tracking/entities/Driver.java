@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @author beou on 5/14/18 22:18

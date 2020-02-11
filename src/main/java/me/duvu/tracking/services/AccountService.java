@@ -1,10 +1,10 @@
 package me.duvu.tracking.services;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.SmtpProperties;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.SmtpProperties;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
+import me.duvu.tracking.entities.enumeration.Roles;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ObjectNotFoundException;
 import me.duvu.tracking.repository.AccountRepository;
@@ -13,7 +13,6 @@ import me.duvu.tracking.specification.AccountSpecification;
 import me.duvu.tracking.utils.PasswordUtils;
 import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
-import me.duvu.tracking.web.rest.model.request.SmtpPropertiesModel;
 import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

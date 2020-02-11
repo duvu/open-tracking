@@ -1,9 +1,9 @@
 package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.SmtpProperties;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.SmtpProperties;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.AccountService;

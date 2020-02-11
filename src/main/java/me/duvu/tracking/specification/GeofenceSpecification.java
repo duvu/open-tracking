@@ -1,10 +1,10 @@
 package me.duvu.tracking.specification;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.Account_;
-import me.duvu.tracking.domain.Geofence;
-import me.duvu.tracking.domain.Geofence_;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.Account_;
+import me.duvu.tracking.entities.Geofence;
+import me.duvu.tracking.entities.Geofence_;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

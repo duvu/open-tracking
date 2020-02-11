@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.UnknownDevice;
+import me.duvu.tracking.entities.UnknownDevice;
 import org.springframework.stereotype.Repository;
 
 /**

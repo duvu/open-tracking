@@ -1,6 +1,6 @@
 package me.duvu.tracking.web.rest;
 
-import me.duvu.tracking.domain.UnknownDevice;
+import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.UnknownDeviceService;
 import me.duvu.tracking.web.rest.model.request.SelectionModel;

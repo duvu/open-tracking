@@ -1,13 +1,12 @@
 package me.duvu.tracking.web.rest.model.request;
 
 import lombok.Data;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
+import me.duvu.tracking.entities.enumeration.Roles;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -1,7 +1,7 @@
 package me.duvu.tracking.specification;
 
-import me.duvu.tracking.domain.AlertEventLog;
-import me.duvu.tracking.domain.AlertEventLog_;
+import me.duvu.tracking.entities.AlertEventLog;
+import me.duvu.tracking.entities.AlertEventLog_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

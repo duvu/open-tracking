@@ -1,9 +1,9 @@
 package me.duvu.tracking;
 
 import me.duvu.tracking.config.CustomUserDetails;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.SmtpProperties;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.SmtpProperties;
+import me.duvu.tracking.entities.enumeration.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 

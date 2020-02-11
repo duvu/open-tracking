@@ -1,8 +1,8 @@
 package me.duvu.tracking.services;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.Geofence;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.Geofence;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.repository.GeofenceRepository;
 import me.duvu.tracking.specification.GeofenceSpecification;

@@ -1,10 +1,10 @@
 package me.duvu.tracking.services;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.AlertProfile;
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.enumeration.DeviceStatus;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.AlertProfile;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.enumeration.DeviceStatus;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.DeviceAlreadyExistedException;
 import me.duvu.tracking.exception.InvalidModelException;

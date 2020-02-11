@@ -1,6 +1,6 @@
 package me.duvu.tracking.specification;
 
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.EventData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

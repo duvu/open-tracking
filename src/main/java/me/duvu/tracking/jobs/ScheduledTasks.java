@@ -1,7 +1,7 @@
 package me.duvu.tracking.jobs;
 
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.enumeration.DeviceStatus;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.enumeration.DeviceStatus;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.services.EventDataService;
 import lombok.extern.slf4j.Slf4j;

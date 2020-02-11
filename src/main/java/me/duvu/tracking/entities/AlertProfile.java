@@ -1,9 +1,9 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
-import me.duvu.tracking.domain.enumeration.AlertCatalog;
-import me.duvu.tracking.domain.enumeration.AlertType;
-import me.duvu.tracking.domain.enumeration.DayTime;
-import me.duvu.tracking.domain.enumeration.WeekDays;
+import me.duvu.tracking.entities.enumeration.AlertCatalog;
+import me.duvu.tracking.entities.enumeration.AlertType;
+import me.duvu.tracking.entities.enumeration.DayTime;
+import me.duvu.tracking.entities.enumeration.WeekDays;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

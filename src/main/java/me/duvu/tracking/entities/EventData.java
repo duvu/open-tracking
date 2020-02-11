@@ -2,10 +2,10 @@
  * Copyright (c) 2017. by Vu.Du
  */
 
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 import me.duvu.tracking.config.StatusCodeUtils;
-import me.duvu.tracking.domain.enumeration.CellTower;
+import me.duvu.tracking.entities.enumeration.CellTower;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;

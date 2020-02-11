@@ -1,8 +1,8 @@
 package me.duvu.tracking.config;
 
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
+import me.duvu.tracking.entities.enumeration.Roles;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,16 +25,20 @@ public class CustomUserDetails implements UserDetails {
     private Account account;
     private Long accountId;
 
+    private String firstPageUrl;
+    private String lang;
+
     public String getFirstPageUrl() {
         return firstPageUrl;
+    }
+
+    public String getLang() {
+        return lang;
     }
 
     public void setFirstPageUrl(String firstPageUrl) {
         this.firstPageUrl = firstPageUrl;
     }
-
-    private String firstPageUrl;
-    private Roles maxRole = Roles.ANONYMOUS;
 
     CustomUserDetails(Account account) {
         this.account = account;
@@ -96,15 +100,6 @@ public class CustomUserDetails implements UserDetails {
         this.accountId = accountId;
     }
 
-    public Roles getMaxRole() {
-        return maxRole;
-    }
-
-    public void setMaxRole(Roles maxRole) {
-        this.maxRole = maxRole;
-    }
-
-
     public String getTimezoneStr() {
         return account.getTimeZoneStr();
     }
@@ -112,8 +107,8 @@ public class CustomUserDetails implements UserDetails {
     private void init() {
         if (account != null) {
             this.accountId = account.getId();
+            this.lang = account.getLanguage();
             setFirstPageUrl(account.getFirstPageUrl());
-            maxRole = account.getPrivilege();
         } else {
             throw new AccessDeninedOrNotExisted("Account not existed");
         }

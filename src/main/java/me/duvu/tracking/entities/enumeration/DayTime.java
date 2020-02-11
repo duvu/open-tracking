@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain.enumeration;
+package me.duvu.tracking.entities.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package me.duvu.tracking.config;
 
-import me.duvu.tracking.domain.Account;
+import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found");
         }
 
-        CustomUserDetails principal = new CustomUserDetails(account);
-        return principal;
+        return new CustomUserDetails(account);
     }
 }

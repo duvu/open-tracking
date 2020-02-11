@@ -1,11 +1,11 @@
 package me.duvu.tracking.specification;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.Account_;
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.Device_;
-import me.duvu.tracking.domain.enumeration.DeviceStatus;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.Account_;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.Device_;
+import me.duvu.tracking.entities.enumeration.DeviceStatus;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 import lombok.Data;
 

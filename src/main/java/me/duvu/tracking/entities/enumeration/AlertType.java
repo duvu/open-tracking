@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain.enumeration;
+package me.duvu.tracking.entities.enumeration;
 
 import org.apache.commons.lang3.StringUtils;
 

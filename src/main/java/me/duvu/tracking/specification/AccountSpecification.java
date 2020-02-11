@@ -1,10 +1,9 @@
 package me.duvu.tracking.specification;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.Account_;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.Account_;
 import lombok.extern.slf4j.Slf4j;
-import me.duvu.tracking.domain.SmtpProperties;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

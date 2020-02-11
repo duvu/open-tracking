@@ -1,6 +1,6 @@
 package me.duvu.tracking.aop.monitor;
 
-import me.duvu.tracking.domain.Device;
+import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.internal.websocket.LocalWSService;
 import me.duvu.tracking.email.EmailService;
 import lombok.extern.slf4j.Slf4j;

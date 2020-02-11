@@ -1,9 +1,10 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
+import me.duvu.tracking.entities.enumeration.Roles;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -112,6 +113,9 @@ public class Account implements Serializable {
     @PrePersist
     private void prePersist() {
         this.createdOn = new Date();
+        if (StringUtils.isEmpty(this.language)) {
+            this.language = "EN";
+        }
     }
 
     @PreUpdate

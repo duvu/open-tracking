@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.Message;
+import me.duvu.tracking.entities.Message;
 
 /**
  * @author beou on 10/29/18 01:59

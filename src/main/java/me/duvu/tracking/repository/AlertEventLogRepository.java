@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.AlertEventLog;
+import me.duvu.tracking.entities.AlertEventLog;
 import org.springframework.stereotype.Repository;
 
 /**

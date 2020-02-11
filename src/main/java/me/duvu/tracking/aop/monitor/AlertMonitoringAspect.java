@@ -1,7 +1,7 @@
 package me.duvu.tracking.aop.monitor;
 
-import me.duvu.tracking.domain.*;
-import me.duvu.tracking.domain.enumeration.AlertType;
+import me.duvu.tracking.entities.*;
+import me.duvu.tracking.entities.enumeration.AlertType;
 import me.duvu.tracking.geo.Geometry;
 import me.duvu.tracking.internal.model.Position;
 import me.duvu.tracking.repository.AlertEventLogRepository;

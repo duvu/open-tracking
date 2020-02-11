@@ -1,7 +1,7 @@
 package me.duvu.tracking.services.models;
 
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.EventData;
 import lombok.Data;
 
 /**

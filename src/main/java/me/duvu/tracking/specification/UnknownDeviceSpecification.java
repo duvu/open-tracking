@@ -1,7 +1,7 @@
 package me.duvu.tracking.specification;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.*;
+import me.duvu.tracking.entities.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

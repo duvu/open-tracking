@@ -1,7 +1,7 @@
 package me.duvu.tracking.repository;
 
 
-import me.duvu.tracking.domain.ActivityLog;
+import me.duvu.tracking.entities.ActivityLog;
 import org.springframework.stereotype.Repository;
 
 /**

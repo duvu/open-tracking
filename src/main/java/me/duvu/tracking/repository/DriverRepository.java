@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.Driver;
+import me.duvu.tracking.entities.Driver;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -1,7 +1,7 @@
 package me.duvu.tracking.services;
 
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.EventData;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.EventData;
 import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.repository.EventDataRepository;
 import me.duvu.tracking.specification.DeviceSpecification;

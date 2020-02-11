@@ -4,7 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import me.duvu.tracking.domain.UnknownDevice;
+import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.internal.model.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

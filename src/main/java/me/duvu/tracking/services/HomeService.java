@@ -1,8 +1,8 @@
 package me.duvu.tracking.services;
 
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.enumeration.AccountStatus;
-import me.duvu.tracking.domain.enumeration.Roles;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.enumeration.AccountStatus;
+import me.duvu.tracking.entities.enumeration.Roles;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.web.rest.model.request.RegisterRequest;
 import lombok.extern.slf4j.Slf4j;

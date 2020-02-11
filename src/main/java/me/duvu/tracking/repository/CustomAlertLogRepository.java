@@ -1,7 +1,7 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.AlertEventLog;
-import me.duvu.tracking.domain.enumeration.AlertType;
+import me.duvu.tracking.entities.AlertEventLog;
+import me.duvu.tracking.entities.enumeration.AlertType;
 
 /**
  * @author beou on 9/12/18 10:08

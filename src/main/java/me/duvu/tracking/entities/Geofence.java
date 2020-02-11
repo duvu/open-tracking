@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain;
+package me.duvu.tracking.entities;
 
 import me.duvu.tracking.geo.Geometry;
 import me.duvu.tracking.geo.GeometryFactory;

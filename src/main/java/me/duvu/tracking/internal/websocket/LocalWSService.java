@@ -1,7 +1,7 @@
 package me.duvu.tracking.internal.websocket;
 
 import com.google.gson.Gson;
-import me.duvu.tracking.domain.UnknownDevice;
+import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.internal.PositionService;
 import me.duvu.tracking.internal.model.Position;
 import me.duvu.tracking.services.UnknownDeviceService;

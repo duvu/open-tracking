@@ -1,4 +1,4 @@
-package me.duvu.tracking.domain.enumeration;
+package me.duvu.tracking.entities.enumeration;
 
 /**
  * @author beou on 9/30/19 00:23

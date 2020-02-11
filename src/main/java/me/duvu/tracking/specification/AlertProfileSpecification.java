@@ -1,9 +1,9 @@
 package me.duvu.tracking.specification;
 
 import me.duvu.tracking.ApplicationContext;
-import me.duvu.tracking.domain.Account_;
-import me.duvu.tracking.domain.AlertProfile;
-import me.duvu.tracking.domain.AlertProfile_;
+import me.duvu.tracking.entities.Account_;
+import me.duvu.tracking.entities.AlertProfile;
+import me.duvu.tracking.entities.AlertProfile_;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

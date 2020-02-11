@@ -1,7 +1,7 @@
 package me.duvu.tracking.utils;
 
-import me.duvu.tracking.domain.AlertEventLog;
-import me.duvu.tracking.domain.AlertProfile;
+import me.duvu.tracking.entities.AlertEventLog;
+import me.duvu.tracking.entities.AlertProfile;
 
 /**
  * @author beou on 8/29/19 16:37

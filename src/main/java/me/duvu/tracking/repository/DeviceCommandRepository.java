@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.DeviceCommand;
+import me.duvu.tracking.entities.DeviceCommand;
 import org.springframework.stereotype.Repository;
 
 /**

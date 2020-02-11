@@ -1,6 +1,6 @@
 package me.duvu.tracking.email;
 
-import me.duvu.tracking.domain.SmtpProperties;
+import me.duvu.tracking.entities.SmtpProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;

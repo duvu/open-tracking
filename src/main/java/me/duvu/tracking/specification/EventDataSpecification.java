@@ -1,8 +1,8 @@
 package me.duvu.tracking.specification;
 
-import me.duvu.tracking.domain.Device_;
-import me.duvu.tracking.domain.EventData;
-import me.duvu.tracking.domain.EventData_;
+import me.duvu.tracking.entities.Device_;
+import me.duvu.tracking.entities.EventData;
+import me.duvu.tracking.entities.EventData_;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

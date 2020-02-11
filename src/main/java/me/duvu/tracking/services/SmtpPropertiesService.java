@@ -1,16 +1,14 @@
 package me.duvu.tracking.services;
 
 import lombok.extern.slf4j.Slf4j;
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.SmtpProperties;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.SmtpProperties;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.SmtpPropertiesRepository;
-import me.duvu.tracking.specification.SmtpPropertiesSpecification;
 import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

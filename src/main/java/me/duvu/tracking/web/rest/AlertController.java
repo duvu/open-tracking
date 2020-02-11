@@ -1,6 +1,6 @@
 package me.duvu.tracking.web.rest;
 
-import me.duvu.tracking.domain.AlertEventLog;
+import me.duvu.tracking.entities.AlertEventLog;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.AlertProfileService;
 import me.duvu.tracking.web.rest.model.request.AlertProfileRequest;

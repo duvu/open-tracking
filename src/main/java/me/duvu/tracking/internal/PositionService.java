@@ -2,9 +2,9 @@ package me.duvu.tracking.internal;
 
 
 import me.duvu.tracking.config.StatusCodes;
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.EventData;
-import me.duvu.tracking.domain.enumeration.CellTower;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.EventData;
+import me.duvu.tracking.entities.enumeration.CellTower;
 import me.duvu.tracking.internal.model.Position;
 import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.repository.EventDataRepository;

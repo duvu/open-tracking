@@ -1,7 +1,7 @@
 package me.duvu.tracking.services;
 
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.UnknownDevice;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.repository.UnknownDeviceRepository;

@@ -79,11 +79,11 @@
         <property name="com.jaspersoft.studio.field.label" value="updatedOn"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
     </field>
-    <field name="company" class="me.duvu.tracking.domain.Company">
+    <field name="company" class="me.duvu.tracking.entities.Company">
         <property name="com.jaspersoft.studio.field.label" value="company"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
     </field>
-    <field name="vehicle" class="me.duvu.tracking.domain.Vehicle">
+    <field name="vehicle" class="me.duvu.tracking.entities.Vehicle">
         <property name="com.jaspersoft.studio.field.label" value="vehicle"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="Device"/>
     </field>

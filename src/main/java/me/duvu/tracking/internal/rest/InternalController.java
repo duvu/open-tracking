@@ -1,6 +1,6 @@
 package me.duvu.tracking.internal.rest;
 
-import me.duvu.tracking.domain.Device;
+import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.services.DeviceService;
 import org.slf4j.Logger;

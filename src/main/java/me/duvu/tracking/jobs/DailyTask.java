@@ -1,8 +1,8 @@
 package me.duvu.tracking.jobs;
 
-import me.duvu.tracking.domain.Account;
-import me.duvu.tracking.domain.Device;
-import me.duvu.tracking.domain.SmtpProperties;
+import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.Device;
+import me.duvu.tracking.entities.SmtpProperties;
 import me.duvu.tracking.email.EmailService;
 import me.duvu.tracking.email.EmailUtils;
 import me.duvu.tracking.repository.AccountRepository;
@@ -10,8 +10,6 @@ import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.services.EventDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;

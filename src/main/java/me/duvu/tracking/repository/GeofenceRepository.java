@@ -1,6 +1,6 @@
 package me.duvu.tracking.repository;
 
-import me.duvu.tracking.domain.Geofence;
+import me.duvu.tracking.entities.Geofence;
 import org.springframework.stereotype.Repository;
 
 /**
