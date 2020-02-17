@@ -17,13 +17,15 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeviceCommand implements Serializable {
+public class DeviceCommand implements MultiTenantInf {
 
     private static final long serialVersionUID = 5444803393409759366L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    String tenantId;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "deviceId", referencedColumnName = "id")

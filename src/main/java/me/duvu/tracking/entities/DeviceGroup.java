@@ -17,13 +17,15 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceGroup implements Serializable {
+public class DeviceGroup implements MultiTenantInf {
 
     private static final long serialVersionUID = -519846339911883186L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    String tenantId;
 
     @Column
     private String name;

@@ -20,13 +20,15 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlertEventLog implements Serializable {
+public class AlertEventLog implements MultiTenantInf {
 
     private static final long serialVersionUID = -6959691400510056129L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     private String alertName;
 

@@ -18,13 +18,15 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message implements Serializable {
+public class Message implements MultiTenantInf {
 
     private static final long serialVersionUID = -3169521879441899118L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     @Column
     private String emailFrom;

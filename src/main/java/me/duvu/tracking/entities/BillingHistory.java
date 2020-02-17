@@ -19,11 +19,13 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class BillingHistory implements Serializable {
+public class BillingHistory implements MultiTenantInf {
 
     private static final long serialVersionUID = -6316573590144855343L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 }

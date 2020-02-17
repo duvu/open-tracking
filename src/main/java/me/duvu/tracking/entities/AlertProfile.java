@@ -22,12 +22,14 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlertProfile implements Serializable {
+public class AlertProfile implements MultiTenantInf {
 
     private static final long serialVersionUID = -7236216894794333965L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     private String name;
 

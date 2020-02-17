@@ -12,13 +12,15 @@ import java.util.Date;
 
 @Data
 @Entity
-public class ReportLog implements Serializable {
+public class ReportLog implements MultiTenantInf {
 
     private static final long serialVersionUID = 5199338536164307318L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     private String type; //speed, parking, geozone
 

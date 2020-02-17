@@ -26,13 +26,15 @@ import java.util.Date;
         @Index(name = "_index_2", columnList = "deviceId, timestamp"),
         @Index(name = "_index_3", columnList = "deviceId, status, timestamp")
 })
-public class EventData implements Serializable, Cloneable {
+public class EventData implements MultiTenantInf, Cloneable {
 
     private static final long serialVersionUID = 2557053954443138542L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "deviceId", referencedColumnName = "id")

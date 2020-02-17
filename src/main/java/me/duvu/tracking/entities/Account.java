@@ -24,7 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "manager")
-public class Account implements Serializable {
+public class Account implements MultiTenantInf {
 
     private static final long serialVersionUID = -7003585213284904715L;
 
@@ -43,6 +43,10 @@ public class Account implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties
     private Account manager;
+
+    //-- multi tenancy move forward
+    @Column
+    private String tenantId;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "_account_device_group", joinColumns = @JoinColumn(name = "accountId", referencedColumnName = "id"),

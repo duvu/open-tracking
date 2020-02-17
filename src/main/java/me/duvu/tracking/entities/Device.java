@@ -26,13 +26,15 @@ import java.util.TimeZone;
 @Table(name = "Device", indexes = {
         @Index(name = "device_index", columnList = "deviceId")
 })
-public class Device implements Serializable {
+public class Device implements MultiTenantInf {
 
     private static final long serialVersionUID = -8426530978816745841L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tenantId;
 
     @Column(length = 32)
     private String name;

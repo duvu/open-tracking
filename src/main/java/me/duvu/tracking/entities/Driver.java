@@ -17,13 +17,15 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Driver implements Serializable {
+public class Driver implements MultiTenantInf {
 
     private static final long serialVersionUID = -5302834275254159640L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    String tenantId;
 
     @Column
     private String firstName;
