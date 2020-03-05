@@ -65,7 +65,7 @@ public class Account implements MultiTenantInf {
     @Column(length = 20)
     private String phoneNumber;
 
-    @Column()
+    @Column(length = 256)
     private String photoUrl;
 
     @Column(nullable = false, unique = true)
@@ -80,7 +80,7 @@ public class Account implements MultiTenantInf {
     @Column(length = 512)
     private String notes;
 
-    @Column(length = 32)
+    @Column(length = 8)
     private String language;
 
     @Column(length = 32)

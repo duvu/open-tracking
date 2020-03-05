@@ -13,15 +13,18 @@ import me.duvu.tracking.specification.AccountSpecification;
 import me.duvu.tracking.utils.PasswordUtils;
 import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
+import me.duvu.tracking.web.rest.model.request.ChangePasswdRequest;
 import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -118,7 +121,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
     @Override
     @Transactional
     public Account update(Long id, AccountRequest request) {
-        Account account = accountRepository.getOne(id);
+        Account account = accountRepository.findById(id).orElse(null);
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
 
@@ -209,6 +212,16 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
             return smtpProperties;
         } else {
             throw new AccessDeninedOrNotExisted("Account not existed or access denied!");
+        }
+    }
+
+    public void changePassword(ChangePasswdRequest request) {
+        Account account = accountRepository.findById(request.getId()).orElse(null);
+        if (account != null) {
+            account.setPassword(PasswordUtils.encode(request.getPassword()));
+            accountRepository.save(account);
+        } else {
+            throw new AccessDeninedOrNotExisted("There's some unexpected error, please try again later!");
         }
     }
 }

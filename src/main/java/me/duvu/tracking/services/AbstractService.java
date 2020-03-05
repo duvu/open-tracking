@@ -1,5 +1,6 @@
 package me.duvu.tracking.services;
 
+import me.duvu.tracking.web.rest.model.request.ChangePasswdRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

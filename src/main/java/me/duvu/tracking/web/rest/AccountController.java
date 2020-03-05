@@ -8,12 +8,16 @@ import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.AccountService;
 import me.duvu.tracking.services.SmtpPropertiesService;
+import me.duvu.tracking.storages.StorageService;
+import me.duvu.tracking.storages.UploadResult;
+import me.duvu.tracking.web.rest.model.request.ChangePasswdRequest;
 import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import me.duvu.tracking.web.rest.model.response.AccountProjection;
 import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
 import me.duvu.tracking.web.rest.model.response.SmtpPropertiesProjection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.projection.ProjectionFactory;
@@ -21,8 +25,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,14 +47,17 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
     private final AccountService accountService;
     private final SmtpPropertiesService smtpPropertiesService;
     private final ProjectionFactory projectionFactory;
+    private final StorageService storageService;
 
     @Autowired
     public AccountController(AccountService accountService,
                              SmtpPropertiesService smtpPropertiesService,
-                             ProjectionFactory projectionFactory) {
+                             ProjectionFactory projectionFactory,
+                             @Qualifier("storageService") StorageService storageService) {
         this.accountService = accountService;
         this.smtpPropertiesService = smtpPropertiesService;
         this.projectionFactory = projectionFactory;
+        this.storageService = storageService;
     }
 
     @GetMapping
@@ -97,6 +106,19 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
         if (result.hasErrors())
             throw new ValidationException("Account", result.getFieldErrors());
         accountService.update(id, request);
+    }
+
+    @PutMapping("/changePasswd")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void changePassword(@RequestBody @Valid ChangePasswdRequest request, BindingResult result) {
+        if (result.hasErrors())
+            throw new ValidationException("Account", result.getFieldErrors());
+        accountService.changePassword(request);
+    }
+
+    @PostMapping("/upload")
+    public UploadResult uploadImage(@RequestParam(value = "file") MultipartFile file) throws IOException {
+        return storageService.upload(ApplicationContext.getCurrentUserName(), file);
     }
 
     @DeleteMapping("/{id}")

@@ -1,4 +1,4 @@
-package me.duvu.tracking.storages.drive;
+package me.duvu.tracking.storages;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -12,8 +12,10 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collections;
@@ -22,7 +24,7 @@ import java.util.Collections;
  * @author beou on 9/27/19 22:29
  */
 @Service
-public class DriverServiceImpl implements DriveService {
+public class DriverServiceImpl implements StorageService {
 
     /** Directory to store user credentials. */
     private static final File DATA_STORE_DIR = new File(System.getProperty("user.home"), ".gpshandle/drive");
@@ -59,7 +61,7 @@ public class DriverServiceImpl implements DriveService {
     }
 
     @Override
-    public String upload(String path) {
+    public UploadResult upload(String path, MultipartFile file) throws IOException {
         return null;
     }
 }

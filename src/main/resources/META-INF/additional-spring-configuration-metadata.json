@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "vd5.cloudinary.name",
+      "type": "java.lang.String",
+      "description": "Description for vd5.cloudinary.name."
+    },
+    {
+      "name": "vd5.cloudinary.api-key",
+      "type": "java.lang.String",
+      "description": "Description for vd5.cloudinary.api-key."
+    },
+    {
+      "name": "vd5.sysadmin.password",
+      "type": "java.lang.String",
+      "description": "Description for vd5.sysadmin.password."
+    },
+    {
+      "name": "vd5.sysadmin.account",
+      "type": "java.lang.String",
+      "description": "Description for vd5.sysadmin.account."
+    },
+    {
+      "name": "vd5.sysadmin.email",
+      "type": "java.lang.String",
+      "description": "Description for vd5.sysadmin.email."
+    },
+    {
+      "name": "vd5.cloudinary.api-secret",
+      "type": "java.lang.String",
+      "description": "Description for vd5.cloudinary.api-secret."
+    }
+  ] }
