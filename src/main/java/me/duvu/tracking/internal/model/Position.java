@@ -1,6 +1,7 @@
 package me.duvu.tracking.internal.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 /**
  * @author beou on 10/9/18 01:54
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Position extends ExtendedModel implements Serializable {
 
@@ -131,6 +133,8 @@ public class Position extends ExtendedModel implements Serializable {
     public static final String ALARM_TAMPERING = "tampering";
     public static final String ALARM_REMOVING = "removing";
 
+    public static final String KEY_REMOTE_ADDRESS = "remoteAddress";
+    public static final String KEY_REMOTE_PORT = "remotePort";
 
     private long id;
 

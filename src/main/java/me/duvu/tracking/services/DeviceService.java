@@ -13,6 +13,7 @@ import me.duvu.tracking.internal.websocket.LocalWSService;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.AlertProfileRepository;
 import me.duvu.tracking.repository.DeviceRepository;
+import me.duvu.tracking.internal.websocket.cmd.CmdModel;
 import me.duvu.tracking.specification.DeviceSpecification;
 import me.duvu.tracking.web.rest.model.request.DeviceRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -240,9 +241,16 @@ public class DeviceService {
     public void sendCommandToDevice(Long id, String cmdStr) {
         Device device = deviceRepository.findById(id).orElse(null);
         if (device != null) {
-
+            CmdModel cmd = CmdModel.builder()
+                    .command("DEVICE_CMD")
+                    .data(cmdStr)
+                    .deviceId(device.getDeviceId())
+                    .remoteAddress(device.getRemoteAddress())
+                    .remotePort(device.getRemotePort())
+                    .build();
             try {
-                localWSService.send("{\"command\":\"CMD_TO_DEVICE\",\"data\":\"{\"device\": \"" +device.getDeviceId()+ "\", \"cmdStr\":\"" +cmdStr + "\"}\"}");
+                // localWSService.send("{\"command\":\"CMD_TO_DEVICE\",\"data\":\"{\"device\": \"" +device.getDeviceId()+ "\", \"cmdStr\":\"" +cmdStr + "\"}\"}");
+                localWSService.send(cmd);
             } catch (IOException e) {
                 e.printStackTrace();
             }

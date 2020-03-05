@@ -5,6 +5,7 @@ import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.internal.PositionService;
 import me.duvu.tracking.internal.model.Position;
 import me.duvu.tracking.services.UnknownDeviceService;
+import me.duvu.tracking.internal.websocket.cmd.AckCmd;
 import me.duvu.tracking.utils.GsonFactory;
 import me.duvu.tracking.utils.Log;
 import org.slf4j.Logger;
@@ -44,10 +45,17 @@ public class LocalWSService {
         }
     }
 
+    public void send(Object data) throws IOException {
+        for (WebSocketSession session: sessions) {
+            session.sendMessage(new TextMessage(gson.toJson(data)));
+        }
+    }
+
+
     public void handle(WebSocketSession session, TextMessage message) {
         try {
-            String ackCommand = "{\"command\":\"ACK\",\"data\":\"\"}";
-            session.sendMessage(new TextMessage(ackCommand));
+            AckCmd cmd = new AckCmd();
+            session.sendMessage(new TextMessage(gson.toJson(cmd)));
         } catch (IOException e) {
             Log.error("Not able to write to client", e);
         }

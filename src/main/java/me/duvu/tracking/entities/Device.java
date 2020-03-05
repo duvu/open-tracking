@@ -62,9 +62,13 @@ public class Device implements MultiTenantInf {
     @JoinColumn(name = "vehicleId", referencedColumnName = "id")
     private Vehicle vehicle;
 
-    private String ipAddress;
+    private String ipAddress; // server ip
 
-    private Integer port;
+    private Integer port; // server port
+
+    private String remoteAddress;
+
+    private int remotePort;
 
     @Column(length = 32)
     private String protocol;

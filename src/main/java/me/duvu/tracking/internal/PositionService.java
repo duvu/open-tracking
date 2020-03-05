@@ -1,6 +1,7 @@
 package me.duvu.tracking.internal;
 
 
+import javafx.geometry.Pos;
 import me.duvu.tracking.config.StatusCodes;
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.EventData;
@@ -70,6 +71,8 @@ public class PositionService {
                 device.setLastLatitude(position.getLatitude());
                 device.setLastEventTime(position.getDeviceTime());
                 device.setLastSpeedKph(position.getSpeed());
+                device.setRemoteAddress(position.getString(Position.KEY_REMOTE_ADDRESS));
+                device.setRemotePort(position.getInteger(Position.KEY_REMOTE_PORT));
 
                 //deviceRepository.save(device);
                 deviceMap.put(deviceId, device);
@@ -98,6 +101,9 @@ public class PositionService {
                 eventData.setSpeedKPH(position.getSpeed());
                 eventData.setAddress(position.getAddress());
 
+                //--//--
+                eventData.setRemoteAddress(position.getString(Position.KEY_REMOTE_ADDRESS));
+                eventData.setRemotePort(position.getInteger(Position.KEY_REMOTE_PORT));
 
                 eventData.setBatteryLevel(position.getDouble(Position.KEY_BATTERY_LEVEL));
                 eventData.setFuelLevel(position.getDouble(Position.KEY_FUEL_LEVEL));
@@ -124,7 +130,7 @@ public class PositionService {
     @Scheduled(fixedRate = 10000, initialDelay = 5000)
     public void updateDeviceTable() {
         synchronized (deviceMap) {
-            List<Device> updatedDeviceList = deviceMap.values().stream().collect(Collectors.toList());
+            List<Device> updatedDeviceList = new ArrayList<>(deviceMap.values());
             if (updatedDeviceList.size() > 0) {
                 try {
                     deviceRepository.saveAll(updatedDeviceList);

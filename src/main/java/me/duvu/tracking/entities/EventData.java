@@ -183,6 +183,12 @@ public class EventData implements MultiTenantInf, Cloneable {
     private CellTower cellTower;
 
     @Column
+    private String remoteAddress;
+
+    @Column
+    private int remotePort;
+
+    @Column
     private String rawData;
 
     @Column
