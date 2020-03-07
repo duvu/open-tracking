@@ -1,5 +1,6 @@
 package me.duvu.tracking.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import me.duvu.tracking.entities.enumeration.AccountStatus;
@@ -9,7 +10,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -35,6 +35,7 @@ public class Account implements MultiTenantInf {
     @Column(nullable = false, unique = true, length = 32)
     private String accountId;
 
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -95,11 +96,9 @@ public class Account implements MultiTenantInf {
     @Column
     private Integer maxStoredDataTime; // in days
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinTable(name = "_smtp_properties_account", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "smtp_properties_id", referencedColumnName = "id"))
-    private Set<SmtpProperties> smtpProperties;
+    private SmtpProperties smtpProperties;
 
+    private HttpProperties httpProperties;
 
     @Column(length = 32)
     private String createdBy;

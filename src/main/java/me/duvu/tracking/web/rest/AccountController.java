@@ -2,20 +2,16 @@ package me.duvu.tracking.web.rest;
 
 import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.entities.Account;
-import me.duvu.tracking.entities.SmtpProperties;
 import me.duvu.tracking.entities.enumeration.AccountStatus;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.AccountService;
-import me.duvu.tracking.services.SmtpPropertiesService;
 import me.duvu.tracking.storages.StorageService;
 import me.duvu.tracking.storages.UploadResult;
 import me.duvu.tracking.web.rest.model.request.ChangePasswdRequest;
-import me.duvu.tracking.web.rest.model.request.SmtpPropertiesRequest;
 import me.duvu.tracking.web.rest.model.response.AccountProjection;
 import me.duvu.tracking.web.rest.model.request.AccountRequest;
 import lombok.extern.slf4j.Slf4j;
-import me.duvu.tracking.web.rest.model.response.SmtpPropertiesProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -31,7 +27,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -45,17 +40,14 @@ import java.util.stream.Collectors;
 public class AccountController extends Vd5AdminController<AccountRequest, AccountProjection> {
 
     private final AccountService accountService;
-    private final SmtpPropertiesService smtpPropertiesService;
     private final ProjectionFactory projectionFactory;
     private final StorageService storageService;
 
     @Autowired
     public AccountController(AccountService accountService,
-                             SmtpPropertiesService smtpPropertiesService,
                              ProjectionFactory projectionFactory,
                              @Qualifier("storageService") StorageService storageService) {
         this.accountService = accountService;
-        this.smtpPropertiesService = smtpPropertiesService;
         this.projectionFactory = projectionFactory;
         this.storageService = storageService;
     }
@@ -126,28 +118,5 @@ public class AccountController extends Vd5AdminController<AccountRequest, Accoun
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         accountService.delete(id);
-    }
-
-    /*SmtpProperties controller*/
-    @GetMapping(value = {"/smtp/{opAccountId}", "/smtp"})
-    public List<SmtpProperties> getAllSmtpProperties(@PathVariable Optional<Long> opAccountId) {
-        if (opAccountId.isPresent()) {
-            return accountService.getAllSmtpProperties(opAccountId.get());
-        } else {
-            return accountService.getAllSmtpProperties(ApplicationContext.getAccountId());
-        }
-    }
-
-    @PostMapping("/smtp/{accountId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('SUPER', 'SYSADMIN', 'ADMIN')")
-    public SmtpPropertiesProjection addSmtpToAccount(@PathVariable Long accountId, @RequestBody @Valid SmtpPropertiesRequest request, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new ValidationException("Exception while add SMTP server to account #" + accountId, result.getFieldErrors());
-        }
-
-        // prevent wrong
-        request.setAccountId(accountId);
-        return projectionFactory.createProjection(SmtpPropertiesProjection.class, accountService.addNewSmtToAccount(accountId, request));
     }
 }

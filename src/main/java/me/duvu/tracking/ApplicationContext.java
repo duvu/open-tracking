@@ -37,12 +37,8 @@ public class ApplicationContext {
         return getCustomUserDetails().getAccount();
     }
 
-    public static Set<SmtpProperties> getSmtpProperties() {
+    public static SmtpProperties getSmtpProperties() {
         return getCurrentAccount().getSmtpProperties();
-    }
-
-    public static SmtpProperties getSmtpProperties(Long smtpId) {
-        return getSmtpProperties().stream().filter(x -> x.getId().equals(smtpId)).findFirst().orElse(null);
     }
 
     public static String getTimezoneStr() {

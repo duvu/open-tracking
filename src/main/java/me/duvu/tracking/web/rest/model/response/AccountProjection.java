@@ -1,5 +1,7 @@
 package me.duvu.tracking.web.rest.model.response;
 
+import me.duvu.tracking.entities.HttpProperties;
+import me.duvu.tracking.entities.SmtpProperties;
 import me.duvu.tracking.entities.enumeration.Roles;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -41,5 +43,9 @@ public interface AccountProjection {
     Date getCreatedOn();
     Date getUpdatedOn();
 
-    List<SmtpPropertiesProjection> getSmtpProperties();
+    @Value(value = "#{target.getSmtpProperties()}")
+    SmtpProperties getSmtpProperties();
+
+    @Value(value = "#{target.getHttpProperties()}")
+    HttpProperties getHttpProperties();
 }

@@ -13,20 +13,20 @@ public class EmailUtils {
     public static JavaMailSender getJavaMailSender(SmtpProperties smtpProperties) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-        mailSender.setHost(smtpProperties.getHost());
-        mailSender.setPort(smtpProperties.getPort());
-        mailSender.setUsername(smtpProperties.getUsername());
-        mailSender.setPassword(smtpProperties.getPassword());
+        mailSender.setHost(smtpProperties.getSmtpHost());
+        mailSender.setPort(smtpProperties.getSmtpPort());
+        mailSender.setUsername(smtpProperties.getSmtpUsername());
+        mailSender.setPassword(smtpProperties.getSmtpPassword());
 
-        mailSender.setProtocol(smtpProperties.getProtocol());
+        mailSender.setProtocol(smtpProperties.getSmtpProtocol());
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
-        if (smtpProperties.getAuth()) {
+        if (smtpProperties.getSmtpAuth()) {
             props.put("mail.smtp.auth", "true");
         } else {
             props.put("mail.smtp.auth", "false");
         }
-        if (smtpProperties.getStartTls()) {
+        if (smtpProperties.getSmtpStartTls()) {
             props.put("mail.smtp.starttls.enable", "true");
         } else {
             props.put("mail.smtp.starttls.enable", "false");

@@ -1,5 +1,6 @@
 package me.duvu.tracking.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,55 +14,37 @@ import java.util.Date;
  * @author beou on 12/7/19 21:46
  */
 
-@Entity
 @Data
+@Embeddable
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SmtpProperties implements MultiTenantInf {
+public class SmtpProperties implements Serializable {
 
     private static final long serialVersionUID = 6659499897105044333L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String tenantId;
+    @Column
+    private String smtpProtocol;
 
     @Column
-    private String protocol;
+    private String smtpHost;
 
     @Column
-    private String host;
+    private int smtpPort;
 
     @Column
-    private int port;
+    private String smtpUsername;
 
     @Column
-    private String username;
+    @JsonIgnore
+    private String smtpPassword;
 
     @Column
-    private String password;
+    private Boolean smtpAuth;
 
     @Column
-    private Boolean auth;
+    private Boolean smtpStartTls;
 
     @Column
-    private Boolean startTls;
-
-    @Column
-    private Long maxSizeAttachment; // bytes
-
-    @Column(length = 32)
-    private String createdBy;
-
-    @Column(length = 32)
-    private String updatedBy;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedOn;
-
+    private Long smtpMaxSizeAttachment; // bytes
 }

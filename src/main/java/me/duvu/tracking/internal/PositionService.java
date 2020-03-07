@@ -1,7 +1,7 @@
 package me.duvu.tracking.internal;
 
 
-import javafx.geometry.Pos;
+import lombok.extern.slf4j.Slf4j;
 import me.duvu.tracking.config.StatusCodes;
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.EventData;
@@ -11,14 +11,12 @@ import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.repository.EventDataRepository;
 import me.duvu.tracking.utils.DistanceCalculator;
 import me.duvu.tracking.utils.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author beou on 10/9/18 02:09

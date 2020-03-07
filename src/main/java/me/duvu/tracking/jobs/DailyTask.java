@@ -10,6 +10,7 @@ import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.services.EventDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
@@ -22,8 +23,9 @@ import java.util.Set;
  * @author beou on 11/4/18 18:45
  */
 
-@Component
 @Slf4j
+@Component
+@Profile("prod")
 public class DailyTask {
     @Value("${vd5.sysadmin.email}")
     private String sysadminEmail;
@@ -50,16 +52,14 @@ public class DailyTask {
     public void deviceReportDaily() {
         List<Account> accountList = accountRepository.findAll();
         accountList.forEach(account -> {
-            Set<SmtpProperties> smtpPropertiesSet = account.getSmtpProperties();
-            SmtpProperties smtp = smtpPropertiesSet != null ? smtpPropertiesSet.iterator().next() : null;
-
+            SmtpProperties smtpProperties = account.getSmtpProperties();
             String emailTo = account.getEmailAddress();
             List<Device> deviceList = deviceService.getAllDeviceByAccountId(account.getId());
             Context ctx = new Context();
             ctx.setVariable("deviceList", deviceList);
             ctx.setVariable("account", account);
             String dailyReportDeviceList = templateEngine.process("dailyDeviceReportList", ctx);
-            EmailUtils.sendEmail(smtp, emailTo, sysadminEmail, "Daily Device List", dailyReportDeviceList);
+            EmailUtils.sendEmail(smtpProperties, emailTo, sysadminEmail, "Daily Device List", dailyReportDeviceList);
         });
     }
 
@@ -69,7 +69,7 @@ public class DailyTask {
     @Scheduled(fixedRate = 60 * 1000)
     public void cleanupDatabase() {
         List<Device> deviceList = deviceService.getAllDisabled();
-        log.info("... Cleaning database: " + deviceList.size());
+         log.info("... Cleaning database: " + deviceList.size());
         if (deviceList.size() > 0) {
             deviceList.forEach(eventDataService::purgeByDevice);
             deviceService.delete(deviceList);
@@ -77,3 +77,4 @@ public class DailyTask {
     }
 
 }
+
