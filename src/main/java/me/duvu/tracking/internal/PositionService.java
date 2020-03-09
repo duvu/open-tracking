@@ -36,7 +36,7 @@ public class PositionService {
 
 
     private final List<EventData> eventDataList = Collections.synchronizedList(new ArrayList<>());
-    private final Map<Long, Device> deviceMap = Collections.synchronizedMap(new HashMap<>());
+    private final Map<String, Device> deviceMap = Collections.synchronizedMap(new HashMap<>());
 
     public PositionService(EventDataRepository eventDataRepository, DeviceRepository deviceRepository) {
         this.eventDataRepository = eventDataRepository;
@@ -44,9 +44,9 @@ public class PositionService {
     }
 
     public void add(Position position) {
-        if (position != null && position.getDeviceId() > 0) {
+        String deviceId = position.getDeviceId();
+        if (deviceId != null && deviceId.length() > 0) {
             EventData eventData = new EventData();
-            long deviceId = position.getDeviceId();
             //Device device = deviceRepository.findById(deviceId).orElse(null);
             Device device = loadDevice(deviceId);
 
@@ -115,9 +115,9 @@ public class PositionService {
         }
     }
 
-    private Device loadDevice(Long deviceId) {
+    private Device loadDevice(String deviceId) {
         if (deviceMap.size() == 0 || deviceMap.get(deviceId) == null) {
-            Device dev = deviceRepository.findById(deviceId).orElse(null);
+            Device dev = deviceRepository.findByDeviceId(deviceId);
             deviceMap.put(deviceId, dev);
             return dev;
         } else {

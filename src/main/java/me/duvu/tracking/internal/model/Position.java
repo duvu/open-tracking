@@ -138,7 +138,7 @@ public class Position extends ExtendedModel implements Serializable {
 
     private long id;
 
-    private long deviceId;
+    private String deviceId;
 
     private String type;
 

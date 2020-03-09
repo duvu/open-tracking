@@ -37,8 +37,8 @@ public class AlertMonitoringAspect {
     @Before(value = "execution(* me.duvu.tracking.internal.PositionService.add(..))")
     public void notifyAlerts(JoinPoint joinPoint) {
         Position position = (Position) joinPoint.getArgs()[0];
-        long deviceId = position.getDeviceId();
-        Device device = deviceRepository.findById(deviceId).orElse(null);
+        String deviceId = position.getDeviceId();
+        Device device = deviceRepository.findByDeviceId(deviceId);
 
         if (device != null) {
             Set<AlertProfile> alertProfiles = device.getAlertProfiles();
