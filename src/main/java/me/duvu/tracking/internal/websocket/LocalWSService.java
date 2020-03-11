@@ -1,11 +1,13 @@
 package me.duvu.tracking.internal.websocket;
 
 import com.google.gson.Gson;
+import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.UnknownDevice;
 import me.duvu.tracking.internal.PositionService;
 import me.duvu.tracking.internal.model.Position;
+import me.duvu.tracking.internal.websocket.cmd.DeviceNotExistedWSEvent;
+import me.duvu.tracking.repository.DeviceRepository;
 import me.duvu.tracking.services.UnknownDeviceService;
-import me.duvu.tracking.internal.websocket.cmd.AckCmd;
 import me.duvu.tracking.utils.GsonFactory;
 import me.duvu.tracking.utils.Log;
 import org.slf4j.Logger;
@@ -28,11 +30,14 @@ public class LocalWSService {
     private final List<WebSocketSession> sessions = new CopyOnWriteArrayList<>();
     private final PositionService positionService;
     private final UnknownDeviceService unknownDeviceService;
+    private final DeviceRepository deviceRepository;
     private final Gson gson = GsonFactory.create();
 
-    public LocalWSService(PositionService positionService, UnknownDeviceService unknownDeviceService) {
+    public LocalWSService(PositionService positionService, UnknownDeviceService unknownDeviceService,
+                          DeviceRepository deviceRepository) {
         this.positionService = positionService;
         this.unknownDeviceService = unknownDeviceService;
+        this.deviceRepository = deviceRepository;
     }
 
     public List<WebSocketSession> getSessions() {
@@ -54,18 +59,20 @@ public class LocalWSService {
 
     public void handle(WebSocketSession session, TextMessage message) {
         try {
-            AckCmd cmd = new AckCmd();
-            session.sendMessage(new TextMessage(gson.toJson(cmd)));
-        } catch (IOException e) {
-            Log.error("Not able to write to client", e);
-        }
-
-        try {
             Message msg = gson.fromJson(message.getPayload(), Message.class);
             Object data = msg.getData();
 
             if (data instanceof Position) {
-                positionService.add((Position)data);
+                Position position = (Position) data;
+                String deviceId = position.getDeviceId();
+                Device device = deviceRepository.findByDeviceId(deviceId);
+                if (device != null) {
+                    positionService.add(position);
+                } else {
+                    DeviceNotExistedWSEvent event = new DeviceNotExistedWSEvent();
+                    event.setDeviceId(deviceId);
+                    session.sendMessage(event.textMessage());
+                }
             }
 
             if (data instanceof UnknownDevice) {

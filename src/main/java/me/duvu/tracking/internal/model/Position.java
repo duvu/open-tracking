@@ -136,7 +136,7 @@ public class Position extends ExtendedModel implements Serializable {
     public static final String KEY_REMOTE_ADDRESS = "remoteAddress";
     public static final String KEY_REMOTE_PORT = "remotePort";
 
-    private long id;
+    private boolean useLastPosition;
 
     private String deviceId;
 

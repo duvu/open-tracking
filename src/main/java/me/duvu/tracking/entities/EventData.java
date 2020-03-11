@@ -186,7 +186,7 @@ public class EventData implements MultiTenantInf, Cloneable {
     private String remoteAddress;
 
     @Column
-    private int remotePort;
+    private Integer remotePort;
 
     @Column
     private String rawData;
