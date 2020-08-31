@@ -48,8 +48,8 @@ public class PositionService {
         if (position != null && position.getDeviceId() > 0) {
             EventData eventData = new EventData();
             long deviceId = position.getDeviceId();
-            //Device device = deviceRepository.findById(deviceId).orElse(null);
-            Device device = loadDevice(deviceId);
+            Device device = deviceRepository.findById(deviceId).orElse(null);
+//            Device device = loadDevice(deviceId);
 
             if (device != null) {
                 String lastAddress = device.getLastAddress();
@@ -71,8 +71,8 @@ public class PositionService {
                 device.setLastEventTime(position.getDeviceTime());
                 device.setLastSpeedKph(position.getSpeed());
 
-                //deviceRepository.save(device);
-                deviceMap.put(deviceId, device);
+                deviceRepository.save(device);
+                //deviceMap.put(deviceId, device);
 
                 //--
                 Date fixTime = position.getFixTime();
@@ -111,30 +111,31 @@ public class PositionService {
         }
     }
 
-    private Device loadDevice(Long deviceId) {
-        if (deviceMap.size() == 0 || deviceMap.get(deviceId) == null) {
-            Device dev = deviceRepository.findById(deviceId).orElse(null);
-            deviceMap.put(deviceId, dev);
-            return dev;
-        } else {
-            return deviceMap.get(deviceId);
-        }
-    }
-
-    @Scheduled(fixedRate = 10000, initialDelay = 5000)
-    public void updateDeviceTable() {
-        synchronized (deviceMap) {
-            List<Device> updatedDeviceList = deviceMap.values().stream().collect(Collectors.toList());
-            if (updatedDeviceList.size() > 0) {
-                try {
-                    deviceRepository.saveAll(updatedDeviceList);
-                } finally {
-                    deviceMap.clear();
-                }
-
-            }
-        }
-    }
+//    private Device loadDevice(Long deviceId) {
+//        if (deviceMap.size() == 0 || deviceMap.get(deviceId) == null) {
+//            Device dev = deviceRepository.findById(deviceId).orElse(null);
+//            deviceMap.put(deviceId, dev);
+//            return dev;
+//        } else {
+//            return deviceMap.get(deviceId);
+//        }
+//    }
+//
+//    @Scheduled(fixedRate = 10000, initialDelay = 5000)
+//    public void updateDeviceTable() {
+//        synchronized (deviceMap) {
+//            List<Device> updatedDeviceList = new ArrayList<>(deviceMap.values()); //.stream().collect(Collectors.toList());
+//            if (updatedDeviceList.size() > 0) {
+//                try {
+//                    log.info("Updating device table #{}", updatedDeviceList.size());
+//                    deviceRepository.saveAll(updatedDeviceList);
+//                } finally {
+//                    deviceMap.clear();
+//                }
+//
+//            }
+//        }
+//    }
 
     @Scheduled(fixedRate = 10000, initialDelay = 10000)
     public void saveEventDataToDB() {

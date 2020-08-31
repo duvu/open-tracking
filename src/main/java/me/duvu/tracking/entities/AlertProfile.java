@@ -41,8 +41,6 @@ public class AlertProfile implements Serializable {
     private AlertCatalog catalog;
 
     //-- for interval
-    
-
 
     //-- for eventually
     @Enumerated(EnumType.STRING)

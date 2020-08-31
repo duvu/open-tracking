@@ -1,5 +1,6 @@
 package me.duvu.tracking.aop.monitor;
 
+import me.duvu.tracking.email.EmailService;
 import me.duvu.tracking.entities.*;
 import me.duvu.tracking.entities.enumeration.AlertType;
 import me.duvu.tracking.geo.Geometry;
@@ -26,12 +27,14 @@ public class AlertMonitoringAspect {
     private final DeviceRepository deviceRepository;
     private final GeofenceRepository geofenceRepository;
     private final AlertEventLogRepository alertEventLogRepository;
+    private final EmailService emailService;
 
     public AlertMonitoringAspect(DeviceRepository deviceRepository, GeofenceRepository geofenceRepository,
-                                 AlertEventLogRepository alertEventLogRepository) {
+                                 AlertEventLogRepository alertEventLogRepository, EmailService emailService) {
         this.deviceRepository = deviceRepository;
         this.geofenceRepository = geofenceRepository;
         this.alertEventLogRepository = alertEventLogRepository;
+        this.emailService = emailService;
     }
 
     @Before(value = "execution(* me.duvu.tracking.internal.PositionService.add(..))")
@@ -156,20 +159,27 @@ public class AlertMonitoringAspect {
 
         Double prevLatitude = device.getLastLatitude();
         Double prevLongitude = device.getLastLongitude();
-        Double currLatitude = position.getLatitude();
-        Double currLongitude = position.getLongitude();
-        Geometry geometry = geofence.getGeometry();
-        // 1. check if current location is inside geofence
-        // 2. check if previous location is outside geofence
-        if (geometry != null) {
-            if (geometry.containsPoint(currLatitude, currLongitude) && !geometry.containsPoint(prevLatitude, prevLongitude)) {
-                log.info("Your vehicle just come into geofence: #" + geofence.getName());
+        double currLatitude = position.getLatitude();
+        double currLongitude = position.getLongitude();
+        if (geofence != null) {
+            log.info("[>_] Geofence {} found.", geofence.getName());
+            Geometry geometry = geofence.getGeometry();
+            // 1. check if current location is inside geofence
+            // 2. check if previous location is outside geofence
+            if (geometry != null) {
+                if (geometry.containsPoint(currLatitude, currLongitude) && !geometry.containsPoint(prevLatitude, prevLongitude)) {
+                    log.info("Your vehicle just come into geofence: #" + geofence.getName());
 
-                //1. store a log
-                saveAlertLog(device, alert, position);
-            } else {
-                log.info("alert "  + alert.getName() + "not fired");
+                    //1. store a log
+                    saveAlertLog(device, alert, position);
+                    sendAlertMessageToEmail(account, device, alert, position);
+                } else {
+                    log.info("[>_] Alert "  + alert.getName() + "not fired");
+                }
             }
+        } else {
+            // no geofence.
+            log.info("[>_] No geofence found.");
         }
     }
 
@@ -184,5 +194,54 @@ public class AlertMonitoringAspect {
         eventLog.setTimestamp(position.getFixTime().getTime());
 
         alertEventLogRepository.save(eventLog);
+    }
+
+    private void sendAlertMessageToEmail(Account account, Device device, AlertProfile alert, Position position) {
+        String to = account.getEmailAddress();
+
+        String subject = getSubject(alert);
+        String body = getBody(alert);
+        emailService.send(to, subject, body);
+    }
+
+    private String getSubject(AlertProfile alertProfile) {
+        AlertType type = alertProfile.getType();
+        String subject = "[Alert] ";
+
+        Long zoneId = alertProfile.getZoneId();
+        Geofence zone = geofenceRepository.findById(zoneId).orElse(null);
+        switch (type) {
+            case ALERT_GEOFENCE_IN:
+                subject += ("Come In Geozone #" + (zone != null ? zone.getName() : "Not defined"));
+                break;
+            case ALERT_GEOFENCE_OUT:
+                subject += ("Come Out Geozone #" + (zone != null ? zone.getName() : "Not defined"));
+                break;
+            case ALERT_START:
+                break;
+            case ALERT_STOP:
+                break;
+            case ALERT_CUSTOM:
+                break;
+            case ALERT_FUEL_DROP:
+                break;
+            case ALERT_FUEL_FILL:
+                break;
+            case ALERT_OVER_SPEED:
+                break;
+            case ALERT_ENGINE_START:
+                break;
+            case ALERT_ENGINE_STOP:
+                break;
+            case ALERT_IGNITION_ON:
+                break;
+            case ALERT_IGNITION_OFF:
+                break;
+        }
+        return subject;
+    }
+
+    String getBody(AlertProfile alertProfile) {
+        return "Body!";
     }
 }
