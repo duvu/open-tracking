@@ -43,8 +43,6 @@ public class AlertProfile implements MultiTenantInf {
     private AlertCatalog catalog;
 
     //-- for interval
-    
-
 
     //-- for eventually
     @Enumerated(EnumType.STRING)
