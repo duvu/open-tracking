@@ -4,6 +4,7 @@ import me.duvu.tracking.entities.enumeration.DeviceStatus;
 import me.duvu.tracking.exception.ValidationException;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.web.rest.model.request.DeviceGroupModel;
+import me.duvu.tracking.web.rest.model.request.ToggleAlertProfileDTO;
 import me.duvu.tracking.web.rest.model.response.DeviceGroupProjection;
 import me.duvu.tracking.web.rest.model.response.DeviceProjection;
 import me.duvu.tracking.web.rest.model.request.DeviceRequest;
@@ -66,6 +67,12 @@ public class DeviceController extends Vd5AdminController<DeviceRequest, DevicePr
     }
 
 
+    @PostMapping("/toggle-alert")
+    public void toggleAlertProfile(@RequestBody ToggleAlertProfileDTO alertProfileDTO) {
+        deviceService.toggleAlertProfile(alertProfileDTO);
+    }
+
+
     @GetMapping("/status")
     public List<DeviceStatus> getStatus() {
         return Arrays.asList(DeviceStatus.getAll());
@@ -89,6 +96,8 @@ public class DeviceController extends Vd5AdminController<DeviceRequest, DevicePr
             throw new ValidationException("Device", result.getFieldErrors());
         deviceService.update(id, request);
     }
+
+
 
     @Override
     @DeleteMapping("/{id}")

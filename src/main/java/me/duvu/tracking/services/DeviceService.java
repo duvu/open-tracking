@@ -1,5 +1,6 @@
 package me.duvu.tracking.services;
 
+import lombok.extern.slf4j.Slf4j;
 import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.entities.AlertProfile;
@@ -10,13 +11,13 @@ import me.duvu.tracking.exception.DeviceAlreadyExistedException;
 import me.duvu.tracking.exception.InvalidModelException;
 import me.duvu.tracking.exception.ObjectNotFoundException;
 import me.duvu.tracking.internal.websocket.LocalWSService;
+import me.duvu.tracking.internal.websocket.cmd.CmdModel;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.AlertProfileRepository;
 import me.duvu.tracking.repository.DeviceRepository;
-import me.duvu.tracking.internal.websocket.cmd.CmdModel;
 import me.duvu.tracking.specification.DeviceSpecification;
 import me.duvu.tracking.web.rest.model.request.DeviceRequest;
-import lombok.extern.slf4j.Slf4j;
+import me.duvu.tracking.web.rest.model.request.ToggleAlertProfileDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,12 +25,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -61,12 +60,23 @@ public class DeviceService {
 
     public Page<Device> getAll(String search, Pageable pageable) {
         Specification<Device> specification = deviceSpecification.search(search);
-        return deviceRepository.findAll(specification, pageable);
+        Page<Device> devicePage = deviceRepository.findAll(specification, pageable);
+        return devicePage.map(x -> {
+            Set<AlertProfile> alertProfileSet = x.getAlertProfiles().stream().filter(xa -> xa.getAccount().getId().equals(ApplicationContext.getAccountId())).collect(Collectors.toSet());
+            x.setAlertProfiles(alertProfileSet);
+            return x;
+        });
     }
 
     public List<Device> getAll(String search) {
         Specification<Device> specification = deviceSpecification.search(search);
-        return deviceRepository.findAll(specification);
+        List<Device> deviceList = deviceRepository.findAll(specification);
+
+        // remove alert profile that does not belong to current user
+        return deviceList.stream().peek(x -> {
+            Set<AlertProfile> alertProfileSet = x.getAlertProfiles().stream().filter(xa -> xa.getAccount().getId().equals(ApplicationContext.getAccountId())).collect(Collectors.toSet());
+            x.setAlertProfiles(alertProfileSet);
+        }).collect(Collectors.toList());
     }
 
     public Device getById(Long id) {
@@ -135,6 +145,7 @@ public class DeviceService {
         }
     }
 
+    @Transactional
     public Device save(Device device) {
         if (device == null) {
             throw new InvalidModelException();
@@ -167,6 +178,8 @@ public class DeviceService {
             throw new AccessDeninedOrNotExisted("Cannot delete this device #id: " + id);
         }
     }
+
+    @Transactional
 
     // disabled mean deleted, cleanup daily or weekly
     public List<Device> getAllDisabled() {
@@ -258,4 +271,38 @@ public class DeviceService {
     }
 
 
+    public void toggleAlertProfile(ToggleAlertProfileDTO alertProfileDTO) {
+        log.info("...ToggleAlertProfile");
+        Long alertProfileId = alertProfileDTO.getAlertProfileId();
+        Long deviceId = alertProfileDTO.getDeviceId();
+        String action = alertProfileDTO.getAction();
+
+        AlertProfile alertProfile = alertProfileRepository.findById(alertProfileId).orElse(null);
+        Assert.notNull(alertProfile, "Not found alertProfile #" + alertProfileId);
+
+        Device device = deviceRepository.findById(deviceId).orElse(null);
+        Assert.notNull(device, "Not found device #" + deviceId);
+        Set<AlertProfile> alertProfileSet = device.getAlertProfiles();
+        log.info("...ToggleAlertProfile {}", alertProfileSet.size());
+
+        Set<AlertProfile> profileSet = new HashSet<>();
+        profileSet.addAll(alertProfileSet);
+
+
+        if (StringUtils.equalsIgnoreCase("add", action)) {
+            profileSet.add(alertProfile);
+        } else if (StringUtils.equalsIgnoreCase("delete", action)) {
+            profileSet.remove(alertProfile);
+        } else {
+            if (alertProfileSet.contains(alertProfile)) {
+                profileSet.remove(alertProfile);
+            } else {
+                profileSet.add(alertProfile);
+            }
+        }
+
+        device.setAlertProfiles(profileSet);
+        deviceRepository.save(device);
+        log.info("___ToggleAlertProfile");
+    }
 }

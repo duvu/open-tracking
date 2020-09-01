@@ -14,6 +14,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.Set;
 
@@ -98,6 +99,14 @@ public class AlertMonitoringAspect {
     }
 
     private void notifyOverSpeed(Device device, AlertProfile alert, Position position) {
+        double speedKph = alert.getSpeedKph();
+        double overSpeedKph = position.getSpeed();
+        if ((speedKph > 0) && (overSpeedKph > speedKph)) {
+            String subject = "[Alert] OverSpeed #" + overSpeedKph + "/" + speedKph + "(km/h)";
+            emailService.send("hoaivubk@gmail.com", subject, "It's an over-speed alert.");
+
+
+        }
     }
 
     private void notifyIgnitionOn(Device device, AlertProfile alert, Position position) {
@@ -129,57 +138,53 @@ public class AlertMonitoringAspect {
         Account account = alert.getAccount();
         long zoneId = alert.getZoneId();
         Geofence geofence = geofenceRepository.findById(zoneId).orElse(null);
+        Assert.notNull(geofence, "Not found zone#" + zoneId);
+        log.info("[>_] Geofence {} found.", geofence.getName());
 
         Double prevLatitude = device.getLastLatitude();
         Double prevLongitude = device.getLastLongitude();
-        Double currLatitude = position.getLatitude();
-        Double currLongitude = position.getLongitude();
+        double currLatitude = position.getLatitude();
+        double currLongitude = position.getLongitude();
 
         Geometry geometry = geofence.getGeometry();
-        if (geometry != null) {
-            // 1. check if current location is outside geofence.
-            // 2. check if previous location is inside geofence
-            if (!geometry.containsPoint(currLatitude, currLongitude) && geometry.containsPoint(prevLatitude, prevLongitude)) {
-                //notify an Alert out
-                log.info("Your vehicle just go out of the geofence: #" + geofence.getName());
-
-                //1. store a log
-                //1. store a log
-                saveAlertLog(device, alert, position);
-
-            } else {
-                log.info("alert "  + alert.getName() + "not fired");
-            }
+        Assert.notNull(geometry, "Not found valid geometry #" + geofence.getGeojson());
+        // 1. check if current location is outside geofence.
+        // 2. check if previous location is inside geofence
+        log.info("Geometry: {}", geometry.toGeoJson());
+        if (!geometry.containsPoint(currLatitude, currLongitude) && geometry.containsPoint(prevLatitude, prevLongitude)) {
+            //notify an Alert out
+            log.info("Your vehicle just go out of the geofence: #" + geofence.getName());
+            saveAlertLog(device, alert, position);
+            sendAlertMessageToEmail(account, device, alert, position);
+        } else {
+            log.info("alert "  + alert.getName() + " not fired");
         }
     }
     private void notifyGeozoneIn(Device device, AlertProfile alert, Position position) {
         Account account = alert.getAccount();
         long zoneId = alert.getZoneId();
         Geofence geofence = geofenceRepository.findById(zoneId).orElse(null);
+        Assert.notNull(geofence, "Not found zone#" + zoneId);
+        log.info("[>_] Geofence {} found.", geofence.getName());
 
         Double prevLatitude = device.getLastLatitude();
         Double prevLongitude = device.getLastLongitude();
         double currLatitude = position.getLatitude();
         double currLongitude = position.getLongitude();
-        if (geofence != null) {
-            log.info("[>_] Geofence {} found.", geofence.getName());
-            Geometry geometry = geofence.getGeometry();
-            // 1. check if current location is inside geofence
-            // 2. check if previous location is outside geofence
-            if (geometry != null) {
-                if (geometry.containsPoint(currLatitude, currLongitude) && !geometry.containsPoint(prevLatitude, prevLongitude)) {
-                    log.info("Your vehicle just come into geofence: #" + geofence.getName());
 
-                    //1. store a log
-                    saveAlertLog(device, alert, position);
-                    sendAlertMessageToEmail(account, device, alert, position);
-                } else {
-                    log.info("[>_] Alert "  + alert.getName() + "not fired");
-                }
-            }
+        Geometry geometry = geofence.getGeometry();
+        Assert.notNull(geometry, "Not found valid geometry #" + geofence.getGeojson());
+        // 1. check if current location is inside geofence
+        // 2. check if previous location is outside geofence
+        log.info("Geometry: {}", geometry.toGeoJson());
+        if (geometry.containsPoint(currLatitude, currLongitude) && !geometry.containsPoint(prevLatitude, prevLongitude)) {
+            log.info("Your vehicle just come into geofence: #" + geofence.getName());
+
+            //1. store a log
+            saveAlertLog(device, alert, position);
+            sendAlertMessageToEmail(account, device, alert, position);
         } else {
-            // no geofence.
-            log.info("[>_] No geofence found.");
+            log.info("[>_] Alert "  + alert.getName() + " not fired");
         }
     }
 
