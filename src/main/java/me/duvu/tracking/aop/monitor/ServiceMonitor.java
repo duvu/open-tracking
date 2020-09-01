@@ -2,7 +2,7 @@ package me.duvu.tracking.aop.monitor;
 
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.internal.websocket.LocalWSService;
-import me.duvu.tracking.email.EmailService;
+import me.duvu.tracking.external.email.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

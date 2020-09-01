@@ -1,4 +1,4 @@
-package me.duvu.tracking.email;
+package me.duvu.tracking.external.email;
 
 /**
  * @author beou on 5/17/18 00:29

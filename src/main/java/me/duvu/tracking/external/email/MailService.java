@@ -1,4 +1,4 @@
-package me.duvu.tracking.email;
+package me.duvu.tracking.external.email;
 
 import me.duvu.tracking.entities.Account;
 import org.slf4j.Logger;

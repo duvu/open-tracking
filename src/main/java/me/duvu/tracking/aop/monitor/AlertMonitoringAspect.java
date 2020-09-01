@@ -1,6 +1,6 @@
 package me.duvu.tracking.aop.monitor;
 
-import me.duvu.tracking.email.EmailService;
+import me.duvu.tracking.external.email.EmailService;
 import me.duvu.tracking.entities.*;
 import me.duvu.tracking.entities.enumeration.AlertType;
 import me.duvu.tracking.geo.Geometry;

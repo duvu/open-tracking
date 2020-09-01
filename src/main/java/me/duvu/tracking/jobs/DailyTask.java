@@ -3,8 +3,8 @@ package me.duvu.tracking.jobs;
 import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.SmtpProperties;
-import me.duvu.tracking.email.EmailService;
-import me.duvu.tracking.email.EmailUtils;
+import me.duvu.tracking.external.email.EmailService;
+import me.duvu.tracking.external.email.EmailUtils;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.services.EventDataService;
@@ -17,7 +17,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author beou on 11/4/18 18:45

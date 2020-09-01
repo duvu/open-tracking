@@ -188,6 +188,13 @@
             <artifactId>cloudinary-http44</artifactId>
             <version>1.25.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.pengrad</groupId>
+            <artifactId>java-telegram-bot-api</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

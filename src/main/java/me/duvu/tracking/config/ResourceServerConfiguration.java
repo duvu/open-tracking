@@ -52,6 +52,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/local/**").permitAll()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/internal/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/telegram/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/telegram/**").permitAll()
                 .antMatchers("/tracker").permitAll()
                 .antMatchers("/api-docs/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
