@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceGroup implements MultiTenantInf {
+public class DeviceGroup {
 
     private static final long serialVersionUID = -519846339911883186L;
 
@@ -25,7 +25,7 @@ public class DeviceGroup implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String tenantId;
+
 
     @Column
     private String name;

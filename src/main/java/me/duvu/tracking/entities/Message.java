@@ -18,7 +18,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message implements MultiTenantInf {
+public class Message {
 
     private static final long serialVersionUID = -3169521879441899118L;
 
@@ -26,7 +26,7 @@ public class Message implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     @Column
     private String emailFrom;

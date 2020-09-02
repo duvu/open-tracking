@@ -16,14 +16,14 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Vehicle implements MultiTenantInf {
+public class Vehicle {
     private static final long serialVersionUID = 808433327662877116L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     @Column(length = 32)
     private String name;

@@ -1,6 +1,7 @@
 package me.duvu.tracking.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.duvu.tracking.entities.enumeration.AlertType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlertEventLog implements MultiTenantInf {
+public class AlertEventLog {
 
     private static final long serialVersionUID = -6959691400510056129L;
 
@@ -28,7 +29,7 @@ public class AlertEventLog implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     private String alertName;
 
@@ -48,7 +49,11 @@ public class AlertEventLog implements MultiTenantInf {
     private AlertType type;
 
     private Double speedKph;
-    private Long zoneId;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "geofence", allowSetters = true)
+    @JoinColumn(name = "zoneId")
+    private Geofence zone;
 
     private boolean alertEmail;
     private boolean alertSms;
@@ -79,7 +84,7 @@ public class AlertEventLog implements MultiTenantInf {
                 ", eventId=" + eventId +
                 ", type=" + type +
                 ", speedKph=" + speedKph +
-                ", zoneId=" + zoneId +
+                ", zoneId=" + (zone != null ? zone.getId() : "" )+
                 ", alertEmail=" + alertEmail +
                 ", alertSms=" + alertSms +
                 ", alertApp=" + alertApp +

@@ -102,10 +102,8 @@ public class AlertMonitoringAspect {
         double speedKph = alert.getSpeedKph();
         double overSpeedKph = position.getSpeed();
         if ((speedKph > 0) && (overSpeedKph > speedKph)) {
-            String subject = "[Alert] OverSpeed #" + overSpeedKph + "/" + speedKph + "(km/h)";
-            emailService.send("hoaivubk@gmail.com", subject, "It's an over-speed alert.");
-
-
+            saveAlertLog(device, alert, position);
+            sendAlertMessageToEmail(device, alert, position);
         }
     }
 
@@ -136,9 +134,9 @@ public class AlertMonitoringAspect {
 
     private void notifyGeozoneOut( Device device, AlertProfile alert, Position position) {
         Account account = alert.getAccount();
-        long zoneId = alert.getZoneId();
-        Geofence geofence = geofenceRepository.findById(zoneId).orElse(null);
-        Assert.notNull(geofence, "Not found zone#" + zoneId);
+        // long zoneId = alert.getZoneId();
+        Geofence geofence = alert.getZone(); //geofenceRepository.findById(zoneId).orElse(null);
+        Assert.notNull(geofence, "Not found zone in alert#" + alert.getName());
         log.info("[>_] Geofence {} found.", geofence.getName());
 
         Double prevLatitude = device.getLastLatitude();
@@ -162,9 +160,8 @@ public class AlertMonitoringAspect {
     }
     private void notifyGeozoneIn(Device device, AlertProfile alert, Position position) {
         Account account = alert.getAccount();
-        long zoneId = alert.getZoneId();
-        Geofence geofence = geofenceRepository.findById(zoneId).orElse(null);
-        Assert.notNull(geofence, "Not found zone#" + zoneId);
+        Geofence geofence = alert.getZone();
+        Assert.notNull(geofence, "Not found zone in alert#" + alert.getName());
         log.info("[>_] Geofence {} found.", geofence.getName());
 
         Double prevLatitude = device.getLastLatitude();
@@ -201,26 +198,27 @@ public class AlertMonitoringAspect {
         alertEventLogRepository.save(eventLog);
     }
 
+    private void sendAlertMessageToEmail(Device device, AlertProfile alert, Position position) {
+        Account account = alert.getAccount();
+        sendAlertMessageToEmail(account, device, alert, position);
+    }
     private void sendAlertMessageToEmail(Account account, Device device, AlertProfile alert, Position position) {
         String to = account.getEmailAddress();
-
-        String subject = getSubject(alert);
+        String subject = getSubject(alert, position);
         String body = getBody(alert);
         emailService.send(to, subject, body);
     }
 
-    private String getSubject(AlertProfile alertProfile) {
+    private String getSubject(AlertProfile alertProfile, Position position) {
         AlertType type = alertProfile.getType();
         String subject = "[Alert] ";
-
-        Long zoneId = alertProfile.getZoneId();
-        Geofence zone = geofenceRepository.findById(zoneId).orElse(null);
+        Geofence zone = alertProfile.getZone();
         switch (type) {
             case ALERT_GEOFENCE_IN:
-                subject += ("Come In Geozone #" + (zone != null ? zone.getName() : "Not defined"));
+                subject += ("[Alert] Come In Geozone #" + (zone != null ? zone.getName() : "Not defined"));
                 break;
             case ALERT_GEOFENCE_OUT:
-                subject += ("Come Out Geozone #" + (zone != null ? zone.getName() : "Not defined"));
+                subject += ("[Alert] Come Out Geozone #" + (zone != null ? zone.getName() : "Not defined"));
                 break;
             case ALERT_START:
                 break;
@@ -233,6 +231,9 @@ public class AlertMonitoringAspect {
             case ALERT_FUEL_FILL:
                 break;
             case ALERT_OVER_SPEED:
+                double speedKph = alertProfile.getSpeedKph();
+                double overSpeedKph = position.getSpeed();
+                subject += "[Alert] OverSpeed #" + overSpeedKph + "/" + speedKph + "(km/h)";
                 break;
             case ALERT_ENGINE_START:
                 break;

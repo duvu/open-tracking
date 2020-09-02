@@ -2,6 +2,8 @@ package me.duvu.tracking.geo;
 
 
 import me.duvu.tracking.utils.DistanceCalculator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -13,6 +15,8 @@ import java.io.StringReader;
  * @author beou on 3/6/18 00:54
  */
 public class Circle extends Geometry {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private double centerLatitude;
     private double centerLongitude;
     private double radius;
@@ -32,6 +36,10 @@ public class Circle extends Geometry {
 
     @Override
     public boolean containsPoint(double latitude, double longitude) {
+        logger.info("... calculating if contain point {}/{}", latitude, longitude);
+        logger.info("... Circle {}/{} - {}", centerLatitude, centerLongitude, radius);
+        double distance = DistanceCalculator.distance(centerLatitude, centerLongitude, latitude, longitude);
+        logger.info("... Distance #{}", distance);
         return DistanceCalculator.distance(centerLatitude, centerLongitude, latitude, longitude) <= radius;
     }
 
@@ -81,8 +89,8 @@ public class Circle extends Geometry {
     public void fromGeoJson(String geoJson) {
         JsonObject jsonObject = Json.createReader(new StringReader(geoJson)).readObject();
         this.radius = jsonObject.getJsonObject("properties").getJsonNumber("radius").doubleValue();
-        this.centerLatitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(0).doubleValue();
-        this.centerLongitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(1).doubleValue();
+        this.centerLongitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(0).doubleValue();
+        this.centerLatitude = jsonObject.getJsonObject("geometry").getJsonArray("coordinates").getJsonNumber(1).doubleValue();
     }
 
     //    @Override

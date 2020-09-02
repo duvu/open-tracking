@@ -20,12 +20,12 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Configuration implements MultiTenantInf {
+public class Configuration {
 
     private static final long serialVersionUID = -1150400522580476842L;
 
 
-    private String tenantId;
+
 
     @Id
     @Size(max = 128)

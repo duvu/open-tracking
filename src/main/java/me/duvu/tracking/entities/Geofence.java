@@ -20,7 +20,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Geofence implements MultiTenantInf {
+public class Geofence {
 
     private static final long serialVersionUID = -911578626567049197L;
 
@@ -28,7 +28,7 @@ public class Geofence implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinTable(name = "AccountGeofence", joinColumns = @JoinColumn(name = "geofenceId", referencedColumnName = "id"),

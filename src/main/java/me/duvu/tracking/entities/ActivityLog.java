@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class ActivityLog implements MultiTenantInf {
+public class ActivityLog {
 
     private static final long serialVersionUID = -5141807460451377913L;
 
@@ -19,7 +19,7 @@ public class ActivityLog implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     @Column
     private String content;

@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class ReportLog implements MultiTenantInf {
+public class ReportLog {
 
     private static final long serialVersionUID = 5199338536164307318L;
 
@@ -20,7 +20,7 @@ public class ReportLog implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 
     private String type; //speed, parking, geozone
 

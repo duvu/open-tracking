@@ -1,5 +1,6 @@
 package me.duvu.tracking.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import me.duvu.tracking.entities.enumeration.AlertCatalog;
 import me.duvu.tracking.entities.enumeration.AlertType;
 import me.duvu.tracking.entities.enumeration.DayTime;
@@ -22,14 +23,12 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlertProfile implements MultiTenantInf {
+public class AlertProfile {
 
     private static final long serialVersionUID = -7236216894794333965L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String tenantId;
 
     private String name;
 
@@ -42,8 +41,6 @@ public class AlertProfile implements MultiTenantInf {
     @Enumerated(EnumType.STRING)
     private AlertCatalog catalog;
 
-    //-- for interval
-
     //-- for eventually
     @Enumerated(EnumType.STRING)
     private AlertType type;
@@ -52,7 +49,12 @@ public class AlertProfile implements MultiTenantInf {
 
     private Double speedKph;
 
-    private Long zoneId;
+    //private Long zoneId;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "geofence", allowSetters = true)
+    @JoinColumn(name = "zoneId")
+    private Geofence zone;
 
     private Long params1;
     private String params2;

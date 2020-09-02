@@ -15,7 +15,7 @@ public class AlertEventLogConverter {
                 .accountId(alert.getAccount().getId())
                 .type(alert.getType())
                 .speedKph(alert.getSpeedKph())
-                .zoneId(alert.getZoneId())
+                .zone(alert.getZone())
                 .alertEmail(alert.isAlertEmail())
                 .alertSms(alert.isAlertSms())
                 .alertApp(alert.isAlertApp())

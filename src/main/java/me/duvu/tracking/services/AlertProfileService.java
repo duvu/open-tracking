@@ -4,11 +4,13 @@ import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.entities.AlertEventLog;
 import me.duvu.tracking.entities.AlertProfile;
+import me.duvu.tracking.entities.Geofence;
 import me.duvu.tracking.entities.enumeration.WeekDays;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.repository.AlertEventLogRepository;
 import me.duvu.tracking.repository.AlertProfileRepository;
+import me.duvu.tracking.repository.GeofenceRepository;
 import me.duvu.tracking.specification.AlertEventLogSpecification;
 import me.duvu.tracking.specification.AlertProfileSpecification;
 import me.duvu.tracking.web.rest.model.request.AlertProfileRequest;
@@ -33,23 +35,22 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
 
     private final AlertProfileRepository alertProfileRepository;
     private final AlertEventLogRepository alertEventLogRepository;
-    private final AccountRepository accountRepository;
     private final AlertProfileSpecification alertProfileSpecification;
     private final AlertEventLogSpecification alertEventLogSpecification;
-
+    private final GeofenceRepository geofenceRepository;
 
     @Autowired
     public AlertProfileService(AlertProfileRepository alertProfileRepository,
                                AlertEventLogRepository alertEventLogRepository,
                                AlertProfileSpecification alertProfileSpecification,
-                               AccountRepository accountRepository,
-                               AlertEventLogSpecification alertEventLogSpecification) {
+                               AlertEventLogSpecification alertEventLogSpecification,
+                               GeofenceRepository geofenceRepository) {
 
         this.alertProfileRepository = alertProfileRepository;
         this.alertEventLogRepository = alertEventLogRepository;
         this.alertProfileSpecification = alertProfileSpecification;
-        this.accountRepository = accountRepository;
         this.alertEventLogSpecification = alertEventLogSpecification;
+        this.geofenceRepository = geofenceRepository;
     }
 
     @Override
@@ -76,6 +77,8 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
     @Transactional
     public AlertProfile create(AlertProfileRequest request) {
         Account account = ApplicationContext.getAccount();
+        Long zoneId = request.getZoneId();
+        Geofence zone = geofenceRepository.findById(zoneId).orElse(null);
 
         WeekDays weekDays = request.getWeekDays();
         log.info("[>_] week-day:" + weekDays.toString());
@@ -87,7 +90,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
                 .type(request.getType())
                 .active(request.isActive())
                 .speedKph(request.getSpeedKph())
-                .zoneId(request.getZoneId())
+                .zone(zone)
                 .params1(request.getParams1())
                 .params2(request.getParams2())
 
@@ -114,6 +117,8 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
     public AlertProfile update(Long id, AlertProfileRequest request) {
         Specification<AlertProfile> spec = alertProfileSpecification.findOne(id);
         AlertProfile ap = alertProfileRepository.findOne(spec).orElse(null);
+        Long zoneId = request.getZoneId();
+        Geofence zone = geofenceRepository.findById(zoneId).orElse(null);
         if (ap != null) {
 
             ap.setType(request.getType());
@@ -122,7 +127,7 @@ public class AlertProfileService extends AbstractService<AlertProfile, AlertProf
             ap.setDescription(request.getDescription());
 
             ap.setSpeedKph(request.getSpeedKph());
-            ap.setZoneId(request.getZoneId());
+            ap.setZone(zone);
 
             ap.setParams1(request.getParams1());
             ap.setParams2(request.getParams2());

@@ -171,8 +171,8 @@ public class Polygon extends Geometry {
         JsonArray jsonCoordinates = geometry.getJsonArray("coordinates").getJsonArray(0);
         coordinates = jsonCoordinates.stream().map(x -> {
             Coordinate coordinate = new Coordinate();
-            coordinate.setLatitude(x.asJsonArray().getJsonNumber(0).doubleValue());
-            coordinate.setLongitude(x.asJsonArray().getJsonNumber(1).doubleValue());
+            coordinate.setLatitude(x.asJsonArray().getJsonNumber(1).doubleValue());
+            coordinate.setLongitude(x.asJsonArray().getJsonNumber(0).doubleValue());
             return coordinate;
         }).collect(Collectors.toList());
 

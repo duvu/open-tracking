@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Driver implements MultiTenantInf {
+public class Driver {
 
     private static final long serialVersionUID = -5302834275254159640L;
 
@@ -25,7 +25,7 @@ public class Driver implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String tenantId;
+
 
     @Column
     private String firstName;

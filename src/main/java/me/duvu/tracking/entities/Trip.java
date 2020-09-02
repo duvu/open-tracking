@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Trip implements MultiTenantInf {
+public class Trip {
 
     private static final long serialVersionUID = -6634383605192536330L;
 
@@ -26,5 +26,5 @@ public class Trip implements MultiTenantInf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tenantId;
+
 }
