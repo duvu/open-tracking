@@ -183,6 +183,37 @@ public class Polygon extends Geometry {
         return TYPE;
     }
 
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public double[] getConstant() {
+        return constant;
+    }
+
+    public void setConstant(double[] constant) {
+        this.constant = constant;
+    }
+
+    public double[] getMultiple() {
+        return multiple;
+    }
+
+    public void setMultiple(double[] multiple) {
+        this.multiple = multiple;
+    }
+
+    public boolean isNeedNormalize() {
+        return needNormalize;
+    }
+
+    public void setNeedNormalize(boolean needNormalize) {
+        this.needNormalize = needNormalize;
+    }
 
     //    @Override
 //    public String toWkt() {

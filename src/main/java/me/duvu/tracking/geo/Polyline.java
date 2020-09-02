@@ -109,4 +109,16 @@ public class Polyline extends Geometry {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    public ArrayList<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(ArrayList<Coordinate> coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
 }

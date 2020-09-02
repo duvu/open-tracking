@@ -9,6 +9,7 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import java.io.Serializable;
 import java.io.StringReader;
 
 /**
@@ -31,6 +32,30 @@ public class Circle extends Geometry {
     public Circle(double centerLatitude, double centerLongitude, double radius) {
         this.centerLatitude = centerLatitude;
         this.centerLongitude = centerLongitude;
+        this.radius = radius;
+    }
+
+    public double getCenterLatitude() {
+        return centerLatitude;
+    }
+
+    public void setCenterLatitude(double centerLatitude) {
+        this.centerLatitude = centerLatitude;
+    }
+
+    public double getCenterLongitude() {
+        return centerLongitude;
+    }
+
+    public void setCenterLongitude(double centerLongitude) {
+        this.centerLongitude = centerLongitude;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
