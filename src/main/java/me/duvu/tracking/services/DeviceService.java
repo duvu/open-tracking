@@ -285,23 +285,19 @@ public class DeviceService {
         Set<AlertProfile> alertProfileSet = device.getAlertProfiles();
         log.info("...ToggleAlertProfile {}", alertProfileSet.size());
 
-        Set<AlertProfile> profileSet = new HashSet<>();
-        profileSet.addAll(alertProfileSet);
-
-
         if (StringUtils.equalsIgnoreCase("add", action)) {
-            profileSet.add(alertProfile);
+            alertProfileSet.add(alertProfile);
         } else if (StringUtils.equalsIgnoreCase("delete", action)) {
-            profileSet.remove(alertProfile);
+            alertProfileSet.remove(alertProfile);
         } else {
             if (alertProfileSet.contains(alertProfile)) {
-                profileSet.remove(alertProfile);
+                alertProfileSet.remove(alertProfile);
             } else {
-                profileSet.add(alertProfile);
+                alertProfileSet.add(alertProfile);
             }
         }
 
-        device.setAlertProfiles(profileSet);
+        device.setAlertProfiles(alertProfileSet);
         deviceRepository.save(device);
         log.info("___ToggleAlertProfile");
     }

@@ -19,10 +19,12 @@ public interface AlertProfileProjection {
     boolean isActive();
     Double getSpeedKph();
 
+    @Value(value = "#{target.getZone() != null ? target.getZone().getName() : null }")
+    String getZoneName();
+
+    @Value(value = "#{target.getZone() != null ? target.getZone().getId() : null }")
     Long getZoneId();
 
-    @Value(value = "#{@geozoneService.getZoneName(target.getZoneId())}")
-    String getZoneName();
     Long getParams1();
     String getParams2();
 

@@ -14,9 +14,9 @@ import java.util.Date;
  * for sms and email via http/https
  */
 
-@Embeddable
 @Data
 @Builder
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 public class HttpProperties implements Serializable {

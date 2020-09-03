@@ -15,8 +15,8 @@ import java.util.Date;
  */
 
 @Data
-@Embeddable
 @Builder
+@Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
 public class SmtpProperties implements Serializable {
