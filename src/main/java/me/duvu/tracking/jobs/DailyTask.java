@@ -2,7 +2,7 @@ package me.duvu.tracking.jobs;
 
 import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.entities.Device;
-import me.duvu.tracking.entities.SmtpProperties;
+import me.duvu.tracking.entities.MailProperties;
 import me.duvu.tracking.external.email.EmailService;
 import me.duvu.tracking.external.email.EmailUtils;
 import me.duvu.tracking.repository.AccountRepository;
@@ -51,14 +51,14 @@ public class DailyTask {
     public void deviceReportDaily() {
         List<Account> accountList = accountRepository.findAll();
         accountList.forEach(account -> {
-            SmtpProperties smtpProperties = account.getSmtpProperties();
+            MailProperties mailProperties = account.getMailProperties();
             String emailTo = account.getEmailAddress();
             List<Device> deviceList = deviceService.getAllDeviceByAccountId(account.getId());
             Context ctx = new Context();
             ctx.setVariable("deviceList", deviceList);
             ctx.setVariable("account", account);
             String dailyReportDeviceList = templateEngine.process("dailyDeviceReportList", ctx);
-            EmailUtils.sendEmail(smtpProperties, emailTo, sysadminEmail, "Daily Device List", dailyReportDeviceList);
+            EmailUtils.sendEmail(mailProperties, emailTo, sysadminEmail, "Daily Device List", dailyReportDeviceList);
         });
     }
 

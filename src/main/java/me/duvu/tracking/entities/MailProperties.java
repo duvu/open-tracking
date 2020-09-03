@@ -19,32 +19,32 @@ import java.util.Date;
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
-public class SmtpProperties implements Serializable {
+public class MailProperties implements Serializable {
 
     private static final long serialVersionUID = 6659499897105044333L;
 
     @Column
-    private String smtpProtocol;
+    private String mailProtocol;
 
     @Column
-    private String smtpHost;
+    private String mailHost;
 
     @Column
-    private int smtpPort;
+    private int mailPort;
 
     @Column
-    private String smtpUsername;
+    private String mailUsername;
 
     @Column
     @JsonIgnore
-    private String smtpPassword;
+    private String mailPassword;
 
     @Column
-    private Boolean smtpAuth;
+    private Boolean mailAuth;
 
     @Column
-    private Boolean smtpStartTls;
+    private Boolean mailStartTls;
 
     @Column
-    private Long smtpMaxSizeAttachment; // bytes
+    private Long mailMaxSizeAttachment; // bytes
 }

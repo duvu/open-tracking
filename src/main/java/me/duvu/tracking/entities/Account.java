@@ -93,10 +93,7 @@ public class Account {
     private Integer maxStoredDataTime; // in days
 
     @Embedded
-    private SmtpProperties smtpProperties;
-
-    @Embedded
-    private HttpProperties httpProperties;
+    private MailProperties mailProperties;
 
     @Column(length = 32)
     private String createdBy;

@@ -1,6 +1,7 @@
 package me.duvu.tracking.web.rest.model.request;
 
 import lombok.Data;
+import me.duvu.tracking.entities.MailProperties;
 import me.duvu.tracking.entities.enumeration.AccountStatus;
 import me.duvu.tracking.entities.enumeration.Roles;
 
@@ -59,29 +60,5 @@ public class AccountRequest implements Serializable {
     @Size(max = 512)
     private String notes;
 
-    // smtp server
-    private String protocol;
-
-    private String host;
-
-    private int port;
-
-    private String smtpUsername;
-
-    private String smtpPassword;
-
-    private Boolean auth;
-
-    private Boolean startTls;
-
-    private Long maxSizeAttachment; // bytes
-
-    // http server
-    private String gatewayUrl;
-
-    private String gatewayApiApp;
-
-    private String gatewayApiKey;
-
-    private String gatewayApiSecret;
+    private MailProperties mailProperties;
 }

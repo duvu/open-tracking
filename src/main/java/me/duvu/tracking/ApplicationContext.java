@@ -2,13 +2,12 @@ package me.duvu.tracking;
 
 import me.duvu.tracking.config.CustomUserDetails;
 import me.duvu.tracking.entities.Account;
-import me.duvu.tracking.entities.SmtpProperties;
+import me.duvu.tracking.entities.MailProperties;
 import me.duvu.tracking.entities.enumeration.Roles;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Set;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
@@ -37,8 +36,8 @@ public class ApplicationContext {
         return getCustomUserDetails().getAccount();
     }
 
-    public static SmtpProperties getSmtpProperties() {
-        return getCurrentAccount().getSmtpProperties();
+    public static MailProperties getMailProperties() {
+        return getCurrentAccount().getMailProperties();
     }
 
     public static String getTimezoneStr() {

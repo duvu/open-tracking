@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -97,6 +98,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
                 .addressLine1(request.getAddressLine1())
                 .addressLine2(request.getAddressLine2())
                 .emailAddress(request.getEmailAddress())
+                .mailProperties(request.getMailProperties())
                 .createdBy(ApplicationContext.getCurrentUserName())
                 .build();
         return accountRepository.save(account);
@@ -106,6 +108,8 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
     @Transactional
     public Account update(Long id, AccountRequest request) {
         Account account = accountRepository.findById(id).orElse(null);
+        Assert.notNull(account, "Not found account #" + id);
+
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
 
@@ -133,6 +137,8 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         account.setAddressLine1(request.getAddressLine1());
         account.setAddressLine2(request.getAddressLine2());
         account.setEmailAddress(request.getEmailAddress());
+
+        account.setMailProperties(request.getMailProperties());
         account.setUpdatedBy(ApplicationContext.getCurrentUserName());
         return accountRepository.save(account);
     }
