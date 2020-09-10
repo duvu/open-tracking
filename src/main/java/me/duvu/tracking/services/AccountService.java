@@ -3,6 +3,7 @@ package me.duvu.tracking.services;
 import lombok.extern.slf4j.Slf4j;
 import me.duvu.tracking.ApplicationContext;
 import me.duvu.tracking.entities.Account;
+import me.duvu.tracking.entities.MailProperties;
 import me.duvu.tracking.entities.enumeration.AccountStatus;
 import me.duvu.tracking.entities.enumeration.Roles;
 import me.duvu.tracking.exception.AccessDeninedOrNotExisted;
@@ -109,6 +110,9 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
     public Account update(Long id, AccountRequest request) {
         Account account = accountRepository.findById(id).orElse(null);
         Assert.notNull(account, "Not found account #" + id);
+
+        MailProperties mailProperties = request.getMailProperties();
+        log.info("mailHost: {}", mailProperties.getMailHost());
 
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();

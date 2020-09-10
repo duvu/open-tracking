@@ -15,7 +15,6 @@ import java.util.Date;
  */
 
 @Data
-@Builder
 @Embeddable
 @NoArgsConstructor
 @AllArgsConstructor
