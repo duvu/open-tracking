@@ -20,15 +20,19 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationManager;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.*;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -81,7 +85,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                         .secret("{noop}123456")
                         .authorizedGrantTypes("implicit", "password", "authorization_code", "refresh_toke")
                         .scopes("read", "write")
-                        .accessTokenValiditySeconds(3600*8)
+                        .accessTokenValiditySeconds(120)
                         .refreshTokenValiditySeconds(3600*8)
                     .and()
                     .withClient("mobile")
@@ -109,12 +113,36 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
 
         endpoints
-                .authenticationManager(this.authenticationManager)
+                .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenEnhancer(enhancerChain)
+                .tokenServices(customTokenServices())
                 .userDetailsService(userDetailsService)
                 .exceptionTranslator(loggingExceptionTranslator());
     }
+
+    @Bean
+    public DefaultTokenServices customTokenServices(){
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
+
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+
+        tokenServices.setTokenStore(new JwtTokenStore(jwtAccessTokenConverter()));
+        tokenServices.setSupportRefreshToken(true);
+        //tokenServices.setAccessTokenValiditySeconds(120);
+        tokenServices.setTokenEnhancer(enhancerChain);
+        tokenServices.setAuthenticationManager(authenticationManager);
+        return tokenServices;
+    }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager() {
+//        OAuth2AuthenticationManager authenticationManager = new OAuth2AuthenticationManager();
+//        authenticationManager.setTokenServices(customTokenServices());
+//        return authenticationManager;
+//    }
+
 
 
     @Bean
