@@ -1,6 +1,6 @@
 package me.duvu.tracking.aop.monitor;
 
-import me.duvu.tracking.external.email.EmailService;
+import me.duvu.tracking.external.email.MailService;
 import me.duvu.tracking.entities.*;
 import me.duvu.tracking.entities.enumeration.AlertType;
 import me.duvu.tracking.geo.Geometry;
@@ -28,14 +28,14 @@ public class AlertMonitoringAspect {
     private final DeviceRepository deviceRepository;
     private final GeofenceRepository geofenceRepository;
     private final AlertEventLogRepository alertEventLogRepository;
-    private final EmailService emailService;
+    private final MailService mailService;
 
     public AlertMonitoringAspect(DeviceRepository deviceRepository, GeofenceRepository geofenceRepository,
-                                 AlertEventLogRepository alertEventLogRepository, EmailService emailService) {
+                                 AlertEventLogRepository alertEventLogRepository, MailService mailService) {
         this.deviceRepository = deviceRepository;
         this.geofenceRepository = geofenceRepository;
         this.alertEventLogRepository = alertEventLogRepository;
-        this.emailService = emailService;
+        this.mailService = mailService;
     }
 
     @Before(value = "execution(* me.duvu.tracking.internal.PositionService.add(..))")
@@ -206,7 +206,7 @@ public class AlertMonitoringAspect {
         String to = account.getEmailAddress();
         String subject = getSubject(alert, position);
         String body = getBody(alert);
-        emailService.send(to, subject, body);
+        mailService.send(to, subject, body);
     }
 
     private String getSubject(AlertProfile alertProfile, Position position) {

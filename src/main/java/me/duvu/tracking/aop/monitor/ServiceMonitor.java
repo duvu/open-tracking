@@ -2,7 +2,7 @@ package me.duvu.tracking.aop.monitor;
 
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.internal.websocket.LocalWSService;
-import me.duvu.tracking.external.email.EmailService;
+import me.duvu.tracking.external.email.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -21,12 +21,12 @@ import java.io.IOException;
 @Component
 public class ServiceMonitor {
 
-    private final EmailService emailService;
+    private final MailService mailService;
     private final LocalWSService localWSService;
     private final EmailContentBuilder contentBuilder;
 
-    public ServiceMonitor(EmailService emailService, LocalWSService localWSService, EmailContentBuilder contentBuilder) {
-        this.emailService = emailService;
+    public ServiceMonitor(MailService mailService, LocalWSService localWSService, EmailContentBuilder contentBuilder) {
+        this.mailService = mailService;
         this.localWSService = localWSService;
         this.contentBuilder = contentBuilder;
     }
@@ -46,7 +46,7 @@ public class ServiceMonitor {
         if (result instanceof Device) {
             Device device = (Device) result;
             String content = contentBuilder.buildDeviceCreated(device);
-            emailService.send("hoaivubk@gmail.com", "Device "+device.getDeviceId()+" Created", content);
+            mailService.send("hoaivubk@gmail.com", "Device "+device.getDeviceId()+" Created", content);
         }
 
     }
@@ -57,7 +57,7 @@ public class ServiceMonitor {
             Device device = (Device) result;
             String deviceId = device.getDeviceId();
             String content = contentBuilder.buildDeviceDeleted(device);
-            emailService.send("hoaivubk@gmail.com", "Device " +deviceId+ " Deleted", content);
+            mailService.send("hoaivubk@gmail.com", "Device " +deviceId+ " Deleted", content);
 
             try {
                 localWSService.send("{\"command\":\"DEVICE_DELETED\", \"data\":\"" + deviceId +"\"}");
