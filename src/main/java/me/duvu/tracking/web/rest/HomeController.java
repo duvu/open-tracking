@@ -19,7 +19,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/home")
+@RequestMapping(value = "/api")
 public class HomeController {
 
     private final ProjectionFactory projectionFactory;

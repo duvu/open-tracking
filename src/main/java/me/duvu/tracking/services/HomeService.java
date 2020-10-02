@@ -52,6 +52,8 @@ public class HomeService {
             account.setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
+        //todo: send email to registering email
+
         return accountRepository.save(account);
     }
 }

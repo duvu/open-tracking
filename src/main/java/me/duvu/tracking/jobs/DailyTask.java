@@ -3,7 +3,7 @@ package me.duvu.tracking.jobs;
 import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.MailProperties;
-import me.duvu.tracking.external.email.EmailService;
+import me.duvu.tracking.external.email.MailService;
 import me.duvu.tracking.external.email.EmailUtils;
 import me.duvu.tracking.repository.AccountRepository;
 import me.duvu.tracking.services.DeviceService;
@@ -34,17 +34,17 @@ public class DailyTask {
     private final EventDataService eventDataService;
     private final AccountRepository accountRepository;
 
-    private final EmailService emailService;
+    private final MailService mailService;
 
     public DailyTask(TemplateEngine templateEngine,
                      DeviceService deviceService,
                      EventDataService eventDataService, AccountRepository accountRepository,
-                     EmailService emailService) {
+                     MailService mailService) {
         this.templateEngine = templateEngine;
         this.deviceService = deviceService;
         this.eventDataService = eventDataService;
         this.accountRepository = accountRepository;
-        this.emailService = emailService;
+        this.mailService = mailService;
     }
 
     @Scheduled(cron="0 0 9 * * *", zone="Asia/Saigon") //9 o'clock of every day.

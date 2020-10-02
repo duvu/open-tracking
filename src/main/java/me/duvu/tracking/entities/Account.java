@@ -10,6 +10,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -91,6 +93,18 @@ public class Account {
 
     @Column
     private Integer maxStoredDataTime; // in days
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
+
+    @Size(max = 20)
+    @JsonIgnore
+    private String activationKey;
+
+    @Size(max = 20)
+    @JsonIgnore
+    private String resetKey;
 
     @Embedded
     private MailProperties mailProperties;
