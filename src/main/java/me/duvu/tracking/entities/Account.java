@@ -130,7 +130,7 @@ public class Account {
     @PostLoad
     private void postLoad() {
         // update timezone;
-        this.timezone = TimeZone.getTimeZone(timeZoneStr);
+        this.timezone = StringUtils.isNotEmpty(timeZoneStr) ? TimeZone.getTimeZone(timeZoneStr) : TimeZone.getDefault();
     }
 
     @PrePersist
