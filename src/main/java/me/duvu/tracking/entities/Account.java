@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * @author beou on 8/1/17 03:09
@@ -121,12 +122,26 @@ public class Account {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
 
+    @Transient
+    private TimeZone timezone;
+
     //--
+
+    @PostLoad
+    private void postLoad() {
+        // update timezone;
+        this.timezone = TimeZone.getTimeZone(timeZoneStr);
+    }
+
     @PrePersist
     private void prePersist() {
         this.createdOn = new Date();
         if (StringUtils.isEmpty(this.language)) {
             this.language = "EN";
+        }
+
+        if (StringUtils.isEmpty(timeZoneStr)) {
+            timeZoneStr = timezone != null ? timezone.getID() : "UTC";
         }
     }
 
