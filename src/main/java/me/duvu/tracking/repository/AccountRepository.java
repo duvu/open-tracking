@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface AccountRepository extends Vd5CommonRepository<Account> {
     Account findAccountByAccountId(String accountId);
     Optional<Account> findByAccountId(String accountId);
+
+    Optional<Account> findOneByActivationKey(String key);
 }

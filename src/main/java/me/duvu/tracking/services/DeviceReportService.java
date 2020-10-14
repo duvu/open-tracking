@@ -2,7 +2,7 @@ package me.duvu.tracking.services;
 
 import me.duvu.tracking.entities.EventData;
 import me.duvu.tracking.repository.EventDataRepository;
-import me.duvu.tracking.services.models.ParkingEvent;
+import me.duvu.tracking.services.dto.ParkingEventDTO;
 import me.duvu.tracking.specification.EventDataSpecification;
 import me.duvu.tracking.utils.DistanceCalculator;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +73,7 @@ public class DeviceReportService {
     }
 
 
-    public List<ParkingEvent> getParkingReport(Long deviceId, Long from, Long to) {
+    public List<ParkingEventDTO> getParkingReport(Long deviceId, Long from, Long to) {
         if (to == null || to == 0) {
             to = (new Date()).getTime();
         }
@@ -85,10 +85,10 @@ public class DeviceReportService {
         Specification<EventData> spec = eventDataSpecification.queryHistoryReverse(deviceId, from, to);
         List<EventData> eventDataList = eventDataRepository.findAll(spec);
 
-        List<ParkingEvent> parkingEventDataList = new ArrayList<>();
+        List<ParkingEventDTO> parkingEventDTODataList = new ArrayList<>();
         int len = eventDataList.size();
         if (len > 0) {
-            ParkingEvent ped = null;
+            ParkingEventDTO ped = null;
             EventData prevEvdt = null;
 
             int i = 0;
@@ -96,7 +96,7 @@ public class DeviceReportService {
                 i++;
                 if (prevEvdt == null) {
                 } else if (i == len) {
-                    ped = ParkingEvent.from(prevEvdt);
+                    ped = ParkingEventDTO.from(prevEvdt);
 
                     ped.setStartParkingTime(prevEvdt.getTimestamp());
                     ped.setEndParkingTime(evdt.getTimestamp());
@@ -106,7 +106,7 @@ public class DeviceReportService {
 
                     ped.setStoppedTime(evdt.getTimestamp() - prevEvdt.getTimestamp());
 
-                    parkingEventDataList.add(ped);
+                    parkingEventDTODataList.add(ped);
                 } else {
                     double distance = DistanceCalculator.distance(prevEvdt.getLatitude(), prevEvdt.getLongitude(), evdt.getLatitude(), evdt.getLongitude());
                     if (StringUtils.equals(prevEvdt.getAddress(), evdt.getAddress()) ||
@@ -117,7 +117,7 @@ public class DeviceReportService {
                     } else {
                         long timedistance = evdt.getTimestamp() - prevEvdt.getTimestamp();
                         if (timedistance > (MINIMUM_TIME_STOPPED * 1000)) {
-                            ped = ParkingEvent.from(prevEvdt);
+                            ped = ParkingEventDTO.from(prevEvdt);
 
                             ped.setStartParkingTime(prevEvdt.getTimestamp());
                             ped.setEndParkingTime(evdt.getTimestamp());
@@ -126,7 +126,7 @@ public class DeviceReportService {
                             ped.setEndParkingOdometterKM(evdt.getOdometerKM());
                             ped.setStoppedTime(timedistance);
 
-                            parkingEventDataList.add(ped);
+                            parkingEventDTODataList.add(ped);
                         }
                     }
                 }
@@ -134,7 +134,7 @@ public class DeviceReportService {
                 prevEvdt = evdt;
             }
         }
-        Collections.reverse(parkingEventDataList);
-        return parkingEventDataList;
+        Collections.reverse(parkingEventDTODataList);
+        return parkingEventDTODataList;
     }
 }

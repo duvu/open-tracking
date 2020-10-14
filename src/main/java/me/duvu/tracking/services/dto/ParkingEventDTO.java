@@ -1,15 +1,19 @@
-package me.duvu.tracking.services.models;
+package me.duvu.tracking.services.dto;
 
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.EventData;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author beou on 5/17/18 00:06
  */
 
 @Data
-public class ParkingEvent {
+public class ParkingEventDTO implements Serializable {
+    private static final long serialVersionUID = -9156408444978067054L;
+
     Long devId;
     String deviceId;
     String deviceName;
@@ -35,8 +39,8 @@ public class ParkingEvent {
 
     Long stoppedTime;
 
-    public static ParkingEvent from(EventData evdt) {
-        ParkingEvent ped = new ParkingEvent();
+    public static ParkingEventDTO from(EventData evdt) {
+        ParkingEventDTO ped = new ParkingEventDTO();
 
         ped.setDevId(evdt.getDevice().getId());
         ped.setDeviceId(evdt.getDevice().getDeviceId());

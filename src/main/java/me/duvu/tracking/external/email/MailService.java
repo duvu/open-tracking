@@ -1,9 +1,11 @@
 package me.duvu.tracking.external.email;
 
+import me.duvu.tracking.entities.Account;
 import me.duvu.tracking.utils.ZQueue;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,12 +15,14 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author beou on 5/17/18 00:29
@@ -39,6 +43,9 @@ public class MailService {
     private final MessageSource messageSource;
 
     private final SpringTemplateEngine templateEngine;
+
+    @Value("${vd5.mail.base.url}")
+    private String baseUrl;
 
     public MailService(JavaMailSender javaMailSender, MessageSource messageSource,
                        SpringTemplateEngine templateEngine) {
@@ -108,5 +115,39 @@ public class MailService {
                 javaMailSender.send((MimeMessagePreparator) message);
             }
         }));
+    }
+
+
+    @Async
+    public void sendEmailFromTemplate(Account user, String templateName, String titleKey) {
+        if (user.getEmailAddress() == null) {
+            log.debug("Email doesn't exist for user '{}'", user.getAccountId());
+            return;
+        }
+        Locale locale = Locale.forLanguageTag(user.getLanguage());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable(BASE_URL, baseUrl);
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(user.getEmailAddress(), subject, content, false, true);
+    }
+
+    @Async
+    public void sendActivationEmail(Account user) {
+        log.debug("Sending activation email to '{}'", user.getEmailAddress());
+        sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
+    }
+
+    @Async
+    public void sendCreationEmail(Account user) {
+        log.debug("Sending creation email to '{}'", user.getEmailAddress());
+        sendEmailFromTemplate(user, "mail/creationEmail", "email.activation.title");
+    }
+
+    @Async
+    public void sendPasswordResetMail(Account user) {
+        log.debug("Sending password reset email to '{}'", user.getEmailAddress());
+        sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
 }

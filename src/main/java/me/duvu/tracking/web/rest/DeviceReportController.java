@@ -3,7 +3,7 @@ package me.duvu.tracking.web.rest;
 import me.duvu.tracking.entities.Device;
 import me.duvu.tracking.entities.EventData;
 import me.duvu.tracking.exception.InvalidFormatException;
-import me.duvu.tracking.services.models.ParkingEvent;
+import me.duvu.tracking.services.dto.ParkingEventDTO;
 import me.duvu.tracking.services.DeviceReportService;
 import me.duvu.tracking.services.DeviceService;
 import me.duvu.tracking.utils.ReportResourceUtils;
@@ -106,8 +106,8 @@ public class DeviceReportController {
                                @RequestParam(name = "format", required = false, defaultValue = "pdf") String format,
                                HttpServletResponse response) {
 
-        List<ParkingEvent> parkingEventData = deviceReportService.getParkingReport(deviceId, from, to);
-        JRBeanCollectionDataSource collectionDataSource = new JRBeanCollectionDataSource(parkingEventData);
+        List<ParkingEventDTO> parkingEventDTOData = deviceReportService.getParkingReport(deviceId, from, to);
+        JRBeanCollectionDataSource collectionDataSource = new JRBeanCollectionDataSource(parkingEventDTOData);
         try {
             JasperReport jasperReport = ReportResourceUtils.getParkingReport();
             Map<String, Object> params = new HashMap<>();

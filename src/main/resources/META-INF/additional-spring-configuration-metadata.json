@@ -29,5 +29,30 @@
       "name": "vd5.cloudinary.api-secret",
       "type": "java.lang.String",
       "description": "Description for vd5.cloudinary.api-secret."
+    },
+    {
+      "name": "vd5.telegram_token",
+      "type": "java.lang.String",
+      "description": "Description for vd5.telegram_token."
+    },
+    {
+      "name": "vd5.MINIMUM_TIME_STOPPED",
+      "type": "java.lang.String",
+      "description": "Description for vd5.MINIMUM_TIME_STOPPED."
+    },
+    {
+      "name": "vd5.MINIMUM_SPEED_KPH",
+      "type": "java.lang.String",
+      "description": "Description for vd5.MINIMUM_SPEED_KPH."
+    },
+    {
+      "name": "vd5.MINIMUM_DISTANCE_METER",
+      "type": "java.lang.String",
+      "description": "Description for vd5.MINIMUM_DISTANCE_METER."
+    },
+    {
+      "name": "vd5.mail.base.url",
+      "type": "java.lang.String",
+      "description": "Description for vd5.mail.base.url."
     }
   ] }
