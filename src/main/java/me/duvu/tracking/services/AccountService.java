@@ -75,7 +75,8 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
     public Account create(AccountRequest request) {
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
-        AccountStatus status = request.getStatus();
+        String statusStr = request.getStatus();
+        AccountStatus status = AccountStatus.get(statusStr);
         Roles ordinal = request.getPrivilege();
 
         Account currentAccount = accountRepository.findByAccountId(ApplicationContext.getCurrentUserName()).orElse(null);
@@ -112,7 +113,7 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
         Assert.notNull(account, "Not found account #" + id);
 
         MailProperties mailProperties = request.getMailProperties();
-        log.info("mailHost: {}", mailProperties.getMailHost());
+        log.info("mailHost: {}", mailProperties != null ? mailProperties.getMailHost() : "");
 
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
@@ -130,8 +131,8 @@ public class AccountService extends AbstractService<Account, AccountRequest> {
 
         Roles ordinal = request.getPrivilege();
         account.setPrivilege(ordinal);
-        AccountStatus status = request.getStatus();
-
+        String statusStr = request.getStatus();
+        AccountStatus status = AccountStatus.get(statusStr);
         account.setStatus(status);
         account.setTimeZoneStr(tzStr);
         account.setLanguage(lang);

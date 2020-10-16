@@ -31,7 +31,7 @@ public class AccountRequest implements Serializable {
     @Size(max = 25)
     private String lastName;
 
-    private AccountStatus status;
+    private String status;
 
     private String timeZoneStr;
 

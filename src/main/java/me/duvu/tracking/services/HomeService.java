@@ -39,14 +39,14 @@ public class HomeService {
         String tzStr = StringUtils.isEmpty(request.getTimeZoneStr()) ? "UTC" : request.getTimeZoneStr();
         String lang = StringUtils.isEmpty(request.getLanguage()) ? "EN" : request.getLanguage();
 
-        Roles ordinal = Roles.ADMIN;
+        Roles ordinal = Roles.NORMAL_USER;
         //-- default is USER.
         Account account = Account.builder()
                 .accountId(request.getAccountId())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .status(AccountStatus.PENDING)
+                .status(AccountStatus.ACTIVATED)
                 .activated(false)
                 .activationKey(RandomUtil.generateActivationKey())
                 .timeZoneStr(tzStr)
@@ -62,19 +62,17 @@ public class HomeService {
         if (!StringUtils.isEmpty(request.getPassword())) {
             account.setPassword(passwordEncoder.encode(request.getPassword()));
         }
-
-        //todo: send email to registering email
-
         return accountRepository.save(account);
     }
 
-    public Optional<Account> activateRegistration(String key) {
+    public Account activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return accountRepository.findOneByActivationKey(key).map(account -> {
            account.setActivated(true);
+           account.setStatus(AccountStatus.ACTIVATED);
            account.setActivationKey(null);
            log.info("Activated account: {}", account);
            return accountRepository.save(account);
-        });
+        }).orElse(null);
     }
 }

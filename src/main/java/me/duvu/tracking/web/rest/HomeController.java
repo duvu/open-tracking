@@ -50,11 +50,9 @@ public class HomeController {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be activated.
      */
     @GetMapping("/activate")
-    public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<Account> user = homeService.activateRegistration(key);
-        // if (!user.isPresent()) {
-        //     throw new AccountResourceException("No user was found for this activation key");
-        // }
+    public AccountProjection activateAccount(@RequestParam(value = "key") String key) {
+        Account user = homeService.activateRegistration(key);
+        return projectionFactory.createProjection(AccountProjection.class, user);
     }
 
 }
